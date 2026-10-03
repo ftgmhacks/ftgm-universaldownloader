@@ -7,52 +7,71 @@ module.exports = async (req, res) => {
   const origin = req.headers['origin'] || '';
   const referer = req.headers['referer'] || '';
 
-  // Clean trailing slashes for accurate matching
   const cleanOrigin = origin.replace(/\/$/, '');
   const cleanReferer = referer.replace(/\/$/, '');
 
-  // Check if request comes from the authorized domain
   const isAllowedOrigin = cleanOrigin === allowedOrigin;
   const isAllowedReferer = cleanReferer === allowedOrigin || cleanReferer.startsWith(`${allowedOrigin}/`);
 
-  // Block unauthorized requests (Direct browser hits, Postman, or external sites)
-  if (!isAllowedOrigin && !isAllowedReferer) {
+  // Allow local testing and requests from authorized domain
+  const isLocal = !origin && !referer;
+
+  if (!isAllowedOrigin && !isAllowedReferer && !isLocal) {
     res.setHeader('Content-Type', 'application/json');
     return res.status(403).send(
-      JSON.stringify(
-        {
-          status: "error",
-          message: "ACCESS DENIED",
-          notice: "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL"
-        },
-        null,
-        2
-      )
+      JSON.stringify({
+        status: "error",
+        message: "ACCESS DENIED",
+        notice: "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL"
+      }, null, 2)
     );
   }
 
-  // Set CORS headers for authorized origin
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  // Set CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Content-Type', 'application/json');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
+  // --- FEATURE 2: PROXY FILE DOWNLOADER ---
+  // If request contains 'dl' (download link), stream file directly through your API
+  const { dl, filename, ext } = req.query;
+
+  if (dl) {
+    try {
+      const fileResponse = await fetch(dl);
+      if (!fileResponse.ok) {
+        return res.status(fileResponse.status).send('Failed to fetch media file');
+      }
+
+      const contentType = fileResponse.headers.get('content-type') || 'application/octet-stream';
+      const safeFilename = (filename || 'FTGM_Downloader').replace(/[^a-zA-Z0-9_-]/g, '_');
+      const fileExtension = ext || 'mp4';
+
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}.${fileExtension}"`);
+
+      // Stream the video/audio directly to client
+      fileResponse.body.pipe(res);
+      return;
+    } catch (err) {
+      return res.status(500).send('Error streaming media file: ' + err.message);
+    }
+  }
+
+  // --- FEATURE 1: METADATA FETCHING ---
   const { url } = req.query;
 
   if (!url) {
+    res.setHeader('Content-Type', 'application/json');
     return res.status(400).send(
-      JSON.stringify(
-        {
-          status: "error",
-          message: "Missing required 'url' parameter"
-        },
-        null,
-        2
-      )
+      JSON.stringify({
+        status: "error",
+        message: "Missing required 'url' or 'dl' parameter"
+      }, null, 2)
     );
   }
 
@@ -61,43 +80,62 @@ module.exports = async (req, res) => {
     const response = await fetch(targetUrl);
     
     if (!response.ok) {
+      res.setHeader('Content-Type', 'application/json');
       return res.status(response.status).send(
-        JSON.stringify(
-          {
-            status: "error",
-            message: "Failed to fetch data from upstream API"
-          },
-          null,
-          2
-        )
+        JSON.stringify({
+          status: "error",
+          message: "Failed to fetch data from upstream API"
+        }, null, 2)
       );
     }
 
     const data = await response.json();
 
-    // Construct response payload with FTGM branding
+    // Construct response and rewrite download links to route through YOUR Vercel API
+    const host = req.headers.host || 'ftgm-universaldownloader.vercel.app';
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const baseUrl = `${protocol}://${host}/api`;
+
+    let formats = [];
+    if (data.video_info && Array.isArray(data.video_info.available_formats)) {
+      formats = data.video_info.available_formats.map(fmt => {
+        // Rewrite original download link to point to YOUR proxy endpoint
+        const proxiedDownloadUrl = `${baseUrl}?dl=${encodeURIComponent(fmt.download_url)}&filename=${encodeURIComponent(data.video_info.title || 'media')}&ext=${fmt.extension || 'mp4'}`;
+        
+        return {
+          quality: fmt.quality,
+          type: fmt.type,
+          extension: fmt.extension,
+          download_url: proxiedDownloadUrl
+        };
+      });
+    }
+
     const transformedData = {
       status: data.status,
       developer: "RANA FAISAL ALI",
       website: "ftgmtools.pages.dev",
-      store: "pak-digital.store",
       brand: "FTGM HACKS | FTGM TOOLS",
-      video_info: data.video_info
+      video_info: {
+        title: data.video_info?.title || '',
+        thumbnail: data.video_info?.thumbnail || '',
+        uploader: data.video_info?.uploader || '',
+        original_url: data.video_info?.original_url || '',
+        available_formats: formats
+      }
     };
 
-    // Return pretty-printed JSON output
+    res.setHeader('Content-Type', 'application/json');
     return res.status(200).send(JSON.stringify(transformedData, null, 2));
+
   } catch (error) {
+    res.setHeader('Content-Type', 'application/json');
     return res.status(500).send(
-      JSON.stringify(
-        {
-          status: "error",
-          message: "Internal Server Error",
-          error: error.message
-        },
-        null,
-        2
-      )
+      JSON.stringify({
+        status: "error",
+        message: "Internal Server Error",
+        error: error.message
+      }, null, 2)
     );
   }
 };
