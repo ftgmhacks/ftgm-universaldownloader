@@ -1,269 +1,598 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIVERSAL DOWNLOADER - FTGM TOOLS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTGM Universal Media Downloader</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- System Fonts Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Extra Bold Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
 
-    <script>
-        tailwind.config = {
-            darkMode: 'media',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0b0f17;
+        --card-bg: #151c28;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --border-color: #232d3f;
+        --accent: #3b82f6;
+        --accent-hover: #2563eb;
+        --shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.35);
+      }
+    }
 
-    <style>
-        /* Force ultra bold font rules across the board */
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-weight: 700;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-        h1, h2, h3, h4, h5, button, input, .font-extrabold {
-            font-weight: 900 !important;
-        }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 16px;
+    }
 
-        /* Smooth contrast transitions */
-        body, div, input, button, header, footer {
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-        }
-    </style>
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header & Branding */
+    header {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 24px;
+    }
+
+    .brand-title {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .brand-title span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Platform Icons Grid */
+    .platforms {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .platform-chip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      font-size: 1.3rem;
+      transition: transform 0.2s ease;
+    }
+
+    .platform-chip:hover {
+      transform: translateY(-2px);
+    }
+
+    .icon-tiktok { color: #fe2c55; }
+    .icon-instagram { color: #e1306c; }
+    .icon-facebook { color: #1877f2; }
+    .icon-youtube { color: #ff0000; }
+
+    /* Input Box */
+    .input-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 8px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 44px 14px 42px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .input-field::placeholder {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .btn-action-input {
+      position: absolute;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 6px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .btn-action-input:hover {
+      color: var(--danger);
+      background-color: rgba(220, 38, 38, 0.1);
+    }
+
+    .btn-fetch {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 24px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-fetch:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Result Card */
+    .result-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .media-preview-container {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+
+    .media-thumb {
+      width: 110px;
+      height: 110px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .media-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .media-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .btn-copy-caption {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-caption:hover {
+      color: var(--text-main);
+      border-color: var(--text-muted);
+    }
+
+    .formats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn-save {
+      width: 100%;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-save:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-save.preparing {
+      background: var(--text-muted);
+      cursor: wait;
+      pointer-events: none;
+    }
+
+    /* WhatsApp Banner */
+    .whatsapp-card {
+      background: #00a884;
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0, 168, 132, 0.2);
+      margin-bottom: 30px;
+      transition: transform 0.2s ease;
+    }
+
+    .whatsapp-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .wa-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wa-icon {
+      font-size: 1.8rem;
+    }
+
+    .wa-text h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .wa-text p {
+      font-size: 0.8rem;
+      opacity: 0.9;
+      font-weight: 600;
+    }
+
+    .wa-arrow {
+      font-size: 1.2rem;
+    }
+
+    /* Notification Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      width: 100%;
+    }
+
+    /* Spinner */
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
+<body>
 
-<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 antialiased flex flex-col justify-between selection:bg-blue-600 selection:text-white">
-
+  <div class="container">
     <!-- Header -->
-    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
-        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-2.5">
-                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white text-lg font-black shadow-md">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <h1 class="text-xl tracking-tight text-slate-900 dark:text-white uppercase font-black">
-                    UNIVERSAL <span class="text-blue-600 dark:text-blue-500">DOWNLOADER</span>
-                </h1>
-            </div>
-            
-            <span class="text-xs font-black tracking-widest text-slate-500 dark:text-slate-400 uppercase bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
-                FTGM TOOLS
-            </span>
-        </div>
+    <header>
+      <h1 class="brand-title">FTGM <span>DOWNLOADER</span></h1>
+      <p class="subtitle">Download High-Quality Videos Fast & Free</p>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-2xl mx-auto px-4 py-8 sm:py-12 w-full flex-1 space-y-8">
+    <!-- Platform Icons -->
+    <div class="platforms">
+      <div class="platform-chip"><i class="fa-brands fa-tiktok icon-tiktok"></i></div>
+      <div class="platform-chip"><i class="fa-brands fa-instagram icon-instagram"></i></div>
+      <div class="platform-chip"><i class="fa-brands fa-facebook icon-facebook"></i></div>
+      <div class="platform-chip"><i class="fa-brands fa-youtube icon-youtube"></i></div>
+    </div>
 
-        <!-- Platform Icons -->
-        <div class="flex items-center justify-center gap-4 sm:gap-6 text-2xl">
-            <i class="fa-brands fa-tiktok text-[#000000] dark:text-white hover:scale-110 transition-transform" title="TikTok"></i>
-            <i class="fa-brands fa-instagram text-[#E4405F] hover:scale-110 transition-transform" title="Instagram"></i>
-            <i class="fa-brands fa-facebook text-[#1877F2] hover:scale-110 transition-transform" title="Facebook"></i>
-            <i class="fa-brands fa-youtube text-[#FF0000] hover:scale-110 transition-transform" title="YouTube"></i>
-            <i class="fa-brands fa-x-twitter text-slate-900 dark:text-slate-100 hover:scale-110 transition-transform" title="X / Twitter"></i>
-            <i class="fa-brands fa-pinterest text-[#BD081C] hover:scale-110 transition-transform" title="Pinterest"></i>
+    <!-- Input Card -->
+    <div class="input-card">
+      <div class="input-wrapper">
+        <i class="fa-solid fa-link"></i>
+        <input type="text" id="urlInput" class="input-field" placeholder="Paste media link here..." autocomplete="off">
+        <button id="inputActionBtn" class="btn-action-input" title="Paste Link">
+          <i class="fa-regular fa-clipboard" id="actionIcon"></i>
+        </button>
+      </div>
+      <button id="fetchBtn" class="btn-fetch">
+        <i class="fa-solid fa-arrow-down-long"></i>
+        <span>Fetch</span>
+      </button>
+    </div>
+
+    <!-- Result Card -->
+    <div id="resultCard" class="result-card">
+      <div class="media-preview-container">
+        <img id="mediaThumb" class="media-thumb" src="" alt="Thumbnail">
+        <div class="media-info">
+          <h2 id="mediaTitle" class="media-title"></h2>
+          <button id="copyCaptionBtn" class="btn-copy-caption">
+            <i class="fa-regular fa-copy"></i> Copy Caption
+          </button>
         </div>
+      </div>
+      <div id="formatsList" class="formats-list"></div>
+    </div>
 
-        <!-- Downloader Card -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl dark:shadow-2xl space-y-4">
-            <form id="downloadForm" class="space-y-4">
-                <div class="relative">
-                    <input 
-                        type="url" 
-                        id="mediaUrl" 
-                        placeholder="Paste link here..." 
-                        required
-                        class="w-full bg-slate-50 dark:bg-slate-950 border-2 border-slate-200 dark:border-slate-800 rounded-2xl px-5 py-4 text-slate-900 dark:text-white font-bold placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-600 dark:focus:border-blue-500 transition-all text-base"
-                    >
-                    <button 
-                        type="button" 
-                        id="pasteBtn"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-xs font-black text-slate-700 dark:text-slate-300 transition-colors"
-                    >
-                        PASTE
-                    </button>
-                </div>
-
-                <button 
-                    type="submit" 
-                    id="submitBtn" 
-                    class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-black text-lg py-4 px-6 rounded-2xl transition-all uppercase tracking-wide shadow-lg shadow-blue-600/20 active:scale-[0.99] flex items-center justify-center space-x-2"
-                >
-                    <i class="fa-solid fa-download"></i>
-                    <span id="btnText">DOWNLOAD</span>
-                </button>
-            </form>
+    <!-- WhatsApp CTA -->
+    <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" class="whatsapp-card">
+      <div class="wa-content">
+        <i class="fa-brands fa-whatsapp wa-icon"></i>
+        <div class="wa-text">
+          <h4>Join Official WhatsApp Channel</h4>
+          <p>Get instant updates & exclusive tools</p>
         </div>
+      </div>
+      <i class="fa-solid fa-chevron-right wa-arrow"></i>
+    </a>
+  </div>
 
-        <!-- Media Output Result -->
-        <div id="resultsCard" class="hidden bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
-            <div class="flex items-center space-x-4">
-                <img id="mediaThumb" src="" alt="Thumbnail" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                <div class="overflow-hidden space-y-1">
-                    <span id="mediaUploader" class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider block">@UPLOADER</span>
-                    <h3 id="mediaTitle" class="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">Media Title</h3>
-                </div>
-            </div>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Caption Copied!</div>
 
-            <div id="formatsList" class="space-y-2.5 border-t border-slate-100 dark:border-slate-800 pt-4">
-                <!-- Download Buttons Dynamic -->
-            </div>
-        </div>
+  <!-- Footer -->
+  <footer>
+    FTGM TOOLS &copy; 2026. All rights reserved.
+  </footer>
 
-        <!-- Error Notification -->
-        <div id="errorBox" class="hidden bg-red-50 dark:bg-red-950/40 border-2 border-red-200 dark:border-red-800/60 rounded-2xl p-5 text-center text-red-600 dark:text-red-400 font-black text-sm">
-            <p id="errorMsg">Failed to fetch download link.</p>
-        </div>
+  <script>
+    const urlInput = document.getElementById('urlInput');
+    const inputActionBtn = document.getElementById('inputActionBtn');
+    const actionIcon = document.getElementById('actionIcon');
+    const fetchBtn = document.getElementById('fetchBtn');
+    const resultCard = document.getElementById('resultCard');
+    const mediaThumb = document.getElementById('mediaThumb');
+    const mediaTitle = document.getElementById('mediaTitle');
+    const copyCaptionBtn = document.getElementById('copyCaptionBtn');
+    const formatsList = document.getElementById('formatsList');
+    const toast = document.getElementById('toast');
 
-        <!-- WhatsApp CTA -->
-        <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" 
-           class="block bg-emerald-500 hover:bg-emerald-600 text-slate-950 rounded-2xl p-4 sm:p-5 transition-all transform active:scale-[0.99] shadow-lg shadow-emerald-500/20">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3.5">
-                    <div class="w-11 h-11 bg-slate-950 rounded-xl flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-base font-black uppercase leading-tight">JOIN WHATSAPP CHANNEL</h4>
-                        <p class="text-xs font-bold text-slate-950/80">Get fast updates & official releases</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-arrow-right text-xl"></i>
-            </div>
-        </a>
+    let currentTitleText = '';
 
-    </main>
+    // Show Toast
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6">
-        <div class="max-w-3xl mx-auto px-4 text-center">
-            <p class="text-xs font-black text-slate-500 dark:text-slate-400 tracking-wider uppercase">
-                &copy; 2026 FTGM TOOLS. ALL RIGHTS RESERVED.
-            </p>
-        </div>
-    </footer>
+    // Toggle Paste / Clear Button
+    urlInput.addEventListener('input', () => {
+      if (urlInput.value.trim() !== '') {
+        actionIcon.className = 'fa-solid fa-xmark';
+        inputActionBtn.title = 'Clear Link';
+      } else {
+        actionIcon.className = 'fa-regular fa-clipboard';
+        inputActionBtn.title = 'Paste Link';
+      }
+    });
 
-    <script>
-        const downloadForm = document.getElementById('downloadForm');
-        const mediaUrlInput = document.getElementById('mediaUrl');
-        const pasteBtn = document.getElementById('pasteBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        
-        const resultsCard = document.getElementById('resultsCard');
-        const mediaThumb = document.getElementById('mediaThumb');
-        const mediaTitle = document.getElementById('mediaTitle');
-        const mediaUploader = document.getElementById('mediaUploader');
-        const formatsList = document.getElementById('formatsList');
-        
-        const errorBox = document.getElementById('errorBox');
-        const errorMsg = document.getElementById('errorMsg');
-
-        // Clipboard Paste
-        pasteBtn.addEventListener('click', async () => {
-            try {
-                const text = await navigator.clipboard.readText();
-                if (text) mediaUrlInput.value = text;
-            } catch (e) {
-                mediaUrlInput.focus();
-            }
-        });
-
-        // Form Submission
-        downloadForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const url = mediaUrlInput.value.trim();
-            if (!url) return;
-
-            // Reset UI
-            resultsCard.classList.add('hidden');
-            errorBox.classList.add('hidden');
-            
-            submitBtn.disabled = true;
-            btnText.textContent = 'PROCESSING...';
-            submitBtn.querySelector('i').className = 'fa-solid fa-circle-notch animate-spin';
-
-            try {
-                const response = await fetch(`/api?url=${encodeURIComponent(url)}`);
-                const data = await response.json();
-
-                if (response.status === 403) {
-                    showError(data.notice || "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
-                    return;
-                }
-
-                if (data.status === "error" || !data.video_info) {
-                    showError(data.notice || data.message || "UNABLE TO FETCH MEDIA FORMATS.");
-                    return;
-                }
-
-                renderMedia(data.video_info);
-
-            } catch (err) {
-                showError("CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
-            } finally {
-                submitBtn.disabled = false;
-                btnText.textContent = 'DOWNLOAD';
-                submitBtn.querySelector('i').className = 'fa-solid fa-download';
-            }
-        });
-
-        function renderMedia(info) {
-            resultsCard.classList.remove('hidden');
-            mediaThumb.src = info.thumbnail || 'https://placehold.co/200x200?text=No+Preview';
-            mediaTitle.textContent = info.title || 'Extracted Media';
-            mediaUploader.textContent = `@${info.uploader || 'FTGM_TOOLS'}`;
-
-            formatsList.innerHTML = '';
-
-            if (Array.isArray(info.available_formats) && info.available_formats.length > 0) {
-                info.available_formats.forEach((fmt) => {
-                    const isAudio = fmt.type === 'audio' || fmt.extension === 'mp3';
-                    const link = document.createElement('a');
-                    link.href = fmt.download_url;
-                    link.target = '_blank';
-                    link.download = true;
-                    link.className = 'flex items-center justify-between p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors group';
-
-                    link.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid ${isAudio ? 'fa-music text-purple-600 dark:text-purple-400' : 'fa-video text-blue-600 dark:text-blue-400'} text-base"></i>
-                            <div>
-                                <span class="text-xs font-black text-slate-900 dark:text-white uppercase block">${fmt.quality || 'HIGH QUALITY'}</span>
-                                <span class="text-[10px] font-bold text-slate-500 uppercase">${fmt.extension || 'MP4'}</span>
-                            </div>
-                        </div>
-                        <span class="px-3.5 py-1.5 rounded-lg bg-blue-600 group-hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider">
-                            SAVE
-                        </span>
-                    `;
-                    formatsList.appendChild(link);
-                });
-            } else {
-                formatsList.innerHTML = `<p class="text-xs font-black text-slate-500 uppercase">NO FORMATS AVAILABLE.</p>`;
-            }
-
-            resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Action Button Click (Paste or Clear)
+    inputActionBtn.addEventListener('click', async () => {
+      if (urlInput.value.trim() !== '') {
+        urlInput.value = '';
+        actionIcon.className = 'fa-regular fa-clipboard';
+        inputActionBtn.title = 'Paste Link';
+        urlInput.focus();
+      } else {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            urlInput.value = text;
+            actionIcon.className = 'fa-solid fa-xmark';
+            inputActionBtn.title = 'Clear Link';
+          }
+        } catch (err) {
+          showToast('Failed to access clipboard');
         }
+      }
+    });
 
-        function showError(message) {
-            errorMsg.textContent = message;
-            errorBox.classList.remove('hidden');
+    // Copy Caption Action
+    copyCaptionBtn.addEventListener('click', () => {
+      if (currentTitleText) {
+        navigator.clipboard.writeText(currentTitleText);
+        showToast('Caption copied to clipboard!');
+      }
+    });
+
+    // Fetch Video Details
+    fetchBtn.addEventListener('click', async () => {
+      const url = urlInput.value.trim();
+      if (!url) {
+        showToast('Please enter a valid video link!');
+        return;
+      }
+
+      // UI Loading State
+      fetchBtn.disabled = true;
+      fetchBtn.innerHTML = '<i class="fa-solid fa-spinner spinner"></i> Processing...';
+      resultCard.style.display = 'none';
+
+      try {
+        const response = await fetch(`/api?url=${encodeURIComponent(url)}`);
+        const data = await response.json();
+
+        if (data.status === 'success' && data.video_info) {
+          const info = data.video_info;
+          currentTitleText = info.title || 'FTGM_Media_Video';
+
+          mediaThumb.src = info.thumbnail || 'https://via.placeholder.com/150';
+          mediaTitle.innerText = currentTitleText;
+
+          formatsList.innerHTML = '';
+          
+          if (info.available_formats && info.available_formats.length > 0) {
+            info.available_formats.forEach(fmt => {
+              const saveBtn = document.createElement('button');
+              saveBtn.className = 'btn-save';
+              saveBtn.innerHTML = `
+                <span><i class="fa-solid fa-download"></i> Save (${fmt.quality})</span>
+                <span>${fmt.extension.toUpperCase()}</span>
+              `;
+
+              saveBtn.addEventListener('click', () => {
+                // Change state to "Preparing..."
+                saveBtn.classList.add('preparing');
+                saveBtn.innerHTML = `
+                  <span><i class="fa-solid fa-spinner spinner"></i> Preparing...</span>
+                  <span>${fmt.extension.toUpperCase()}</span>
+                `;
+
+                // Trigger Download
+                window.location.href = fmt.download_url;
+
+                // Reset button after 5 seconds
+                setTimeout(() => {
+                  saveBtn.classList.remove('preparing');
+                  saveBtn.innerHTML = `
+                    <span><i class="fa-solid fa-download"></i> Save (${fmt.quality})</span>
+                    <span>${fmt.extension.toUpperCase()}</span>
+                  `;
+                }, 5000);
+              });
+
+              formatsList.appendChild(saveBtn);
+            });
+          } else {
+            formatsList.innerHTML = '<p style="color:var(--text-muted); font-weight:600;">No download formats available.</p>';
+          }
+
+          resultCard.style.display = 'block';
+        } else {
+          showToast(data.message || 'Failed to fetch video details.');
         }
-    </script>
+      } catch (err) {
+        showToast('Error connecting to API server.');
+      } finally {
+        fetchBtn.disabled = false;
+        fetchBtn.innerHTML = '<i class="fa-solid fa-arrow-down-long"></i> Fetch';
+      }
+    });
+  </script>
 </body>
 </html>
