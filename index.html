@@ -29,7 +29,6 @@
       
       --success: #10b981;
       --danger: #ef4444;
-      --danger-bg: #fef2f2;
       
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -51,7 +50,6 @@
         --input-bg: #0f172a;
         --accent: #6366f1;
         --accent-hover: #4f46e5;
-        --danger-bg: rgba(239, 68, 68, 0.15);
         --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
       }
     }
@@ -88,9 +86,8 @@
     }
 
     @keyframes pulseSoft {
-      0% { box-shadow: 0 0 0 0 var(--accent-glow); }
-      70% { box-shadow: 0 0 0 10px rgba(79,70,229,0); }
-      100% { box-shadow: 0 0 0 0 rgba(79,70,229,0); }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     .animate-up {
@@ -115,18 +112,25 @@
       filter: drop-shadow(0 4px 6px var(--accent-glow));
     }
 
+    /* GRADIENT TITLE THEME */
     .brand-title {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 900;
       letter-spacing: -0.5px;
       margin-bottom: 8px;
       text-transform: uppercase;
-    }
-
-    .brand-title span {
-      background: linear-gradient(135deg, var(--accent), #a855f7);
+      background: linear-gradient(135deg, #4f46e5, #ec4899, #f43f5e, #f59e0b);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      display: inline-block;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .subtitle {
@@ -171,7 +175,7 @@
     .icon-facebook { color: #1877f2; }
     .icon-youtube { color: #ff0000; }
 
-    /* Search Container (Input + Button Stacked) */
+    /* Search Container */
     .search-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -214,7 +218,7 @@
 
     .input-field {
       width: 100%;
-      padding: 16px 52px 16px 44px; /* Ensured room for side icons */
+      padding: 16px 52px 16px 44px;
       background: transparent;
       border: none;
       outline: none;
@@ -251,7 +255,6 @@
       border-color: var(--accent);
     }
 
-    /* Make clear button (Cut icon) turn red on hover */
     .btn-action-input.clear-mode:hover {
       background: var(--danger);
       color: #fff;
@@ -281,12 +284,50 @@
       box-shadow: 0 8px 25px var(--accent-glow);
       background: linear-gradient(135deg, var(--accent-hover), #6d28d9);
     }
-    
-    .btn-fetch:active {
-      transform: translateY(1px);
+
+    /* LOADING PROCESSING CONTAINER */
+    .loading-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 24px;
+      display: none; /* toggled via JS */
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      text-align: center;
     }
 
-    /* Result Card (Hidden by default, animated in JS) */
+    .loading-card.show {
+      display: flex;
+      animation: fadeInUp 0.4s ease forwards;
+    }
+
+    .processing-gif {
+      width: 130px;
+      border-radius: 12px;
+      mix-blend-mode: multiply; /* Removes white background if light theme */
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .processing-gif {
+        mix-blend-mode: normal; /* Maintain as is on dark mode */
+      }
+    }
+
+    .processing-text {
+      font-size: 1.1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4f46e5, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulseSoft 1.5s infinite ease-in-out;
+    }
+
+    /* Result Card */
     .result-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -294,7 +335,7 @@
       padding: 24px;
       box-shadow: var(--shadow-lg);
       margin-bottom: 24px;
-      display: none; /* toggled by JS */
+      display: none; 
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.5s ease, transform 0.5s ease;
@@ -341,7 +382,6 @@
       color: var(--text-main);
       line-height: 1.5;
       margin-bottom: 12px;
-      /* Removed line-clamp to show full text */
       word-wrap: break-word;
       white-space: pre-wrap;
     }
@@ -365,6 +405,7 @@
       background: var(--border-color);
     }
 
+    /* Improved Download Formats List */
     .formats-list {
       display: flex;
       flex-direction: column;
@@ -393,6 +434,16 @@
       border-color: var(--accent);
       background: rgba(79, 70, 229, 0.05);
       color: var(--accent);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-save i {
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-save:hover i {
+      transform: translateY(2px);
     }
 
     .btn-save.preparing {
@@ -401,6 +452,15 @@
       border-color: transparent;
       cursor: wait;
       pointer-events: none;
+    }
+
+    .ext-badge {
+      background: var(--border-color);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-main);
     }
 
     /* WhatsApp Banner */
@@ -484,6 +544,7 @@
     .spinner {
       animation: spin 1s linear infinite;
     }
+    
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -498,7 +559,8 @@
       <div class="logo-wrapper">
          <i class="fa-solid fa-bolt logo-icon"></i>
       </div>
-      <h1 class="brand-title">FTGM <span>DOWNLOADER</span></h1>
+      <!-- Gradient applied to the full title text natively -->
+      <h1 class="brand-title">FTGM DOWNLOADER</h1>
       <p class="subtitle">Download High-Quality Videos Fast & Free</p>
     </header>
 
@@ -520,11 +582,17 @@
         </button>
       </div>
       
-      <!-- Download Button is now under the Search Bar -->
       <button id="fetchBtn" class="btn-fetch">
         <i class="fa-solid fa-arrow-down-long"></i>
         <span>Fetch Media</span>
       </button>
+    </div>
+
+    <!-- Processing Animation Card -->
+    <div id="loadingCard" class="loading-card">
+      <!-- Your requested animated WebP/GIF File -->
+      <img src="https://block.youtest.me/static/assets/img/ques_images/297/header.webp" alt="Processing" class="processing-gif">
+      <p class="processing-text">Extracting Video Links...</p>
     </div>
 
     <!-- Result Card -->
@@ -572,6 +640,7 @@
     const actionIcon = document.getElementById('actionIcon');
     const fetchBtn = document.getElementById('fetchBtn');
     const resultCard = document.getElementById('resultCard');
+    const loadingCard = document.getElementById('loadingCard');
     const mediaThumb = document.getElementById('mediaThumb');
     const mediaTitle = document.getElementById('mediaTitle');
     const copyCaptionBtn = document.getElementById('copyCaptionBtn');
@@ -645,7 +714,7 @@
       }
     });
 
-    // Fetch Logic with smooth result appearance
+    // Fetch Logic
     fetchBtn.addEventListener('click', async () => {
       const url = urlInput.value.trim();
       if (!url) {
@@ -654,18 +723,22 @@
         return;
       }
 
-      // UI Loading State
+      // UI Loading State (Show Custom Gif & Pulse Text)
       fetchBtn.disabled = true;
       fetchBtn.innerHTML = '<i class="fa-solid fa-spinner spinner"></i> <span>Processing...</span>';
       
-      // Hide result card if showing
+      // Hide result card and show loading GIF container
       resultCard.classList.remove('show');
       setTimeout(() => resultCard.style.display = 'none', 300);
+      loadingCard.classList.add('show');
 
       try {
-        // Simulating API Fetch
+        // Simulating API Fetch Server Call
         const response = await fetch(`/api?url=${encodeURIComponent(url)}`);
         const data = await response.json();
+
+        // Let the GIF show for at least slightly even if API is very fast (Better UX)
+        await new Promise(resolve => setTimeout(resolve, 800));
 
         if (data.status === 'success' && data.video_info) {
           const info = data.video_info;
@@ -680,16 +753,23 @@
             info.available_formats.forEach(fmt => {
               const saveBtn = document.createElement('button');
               saveBtn.className = 'btn-save';
+              // Styled Format & Integrated Perfect Download Icons
               saveBtn.innerHTML = `
-                <span><i class="fa-solid fa-download" style="margin-right:6px"></i> Download (${fmt.quality})</span>
-                <span style="font-size:0.85rem; font-weight:800;">${fmt.extension.toUpperCase()}</span>
+                <div style="display:flex; align-items:center; gap: 10px;">
+                  <i class="fa-solid fa-cloud-arrow-down fa-lg"></i>
+                  <span>Download (${fmt.quality})</span>
+                </div>
+                <span class="ext-badge">${fmt.extension.toUpperCase()}</span>
               `;
 
               saveBtn.addEventListener('click', () => {
                 saveBtn.classList.add('preparing');
                 saveBtn.innerHTML = `
-                  <span><i class="fa-solid fa-spinner spinner" style="margin-right:6px"></i> Preparing...</span>
-                  <span style="font-size:0.85rem; font-weight:800;">${fmt.extension.toUpperCase()}</span>
+                  <div style="display:flex; align-items:center; gap: 10px;">
+                    <i class="fa-solid fa-spinner spinner"></i>
+                    <span>Preparing...</span>
+                  </div>
+                  <span class="ext-badge">${fmt.extension.toUpperCase()}</span>
                 `;
 
                 window.location.href = fmt.download_url;
@@ -697,8 +777,11 @@
                 setTimeout(() => {
                   saveBtn.classList.remove('preparing');
                   saveBtn.innerHTML = `
-                    <span><i class="fa-solid fa-download" style="margin-right:6px"></i> Download (${fmt.quality})</span>
-                    <span style="font-size:0.85rem; font-weight:800;">${fmt.extension.toUpperCase()}</span>
+                    <div style="display:flex; align-items:center; gap: 10px;">
+                      <i class="fa-solid fa-cloud-arrow-down fa-lg"></i>
+                      <span>Download (${fmt.quality})</span>
+                    </div>
+                    <span class="ext-badge">${fmt.extension.toUpperCase()}</span>
                   `;
                 }, 5000);
               });
@@ -708,17 +791,20 @@
           } else {
             formatsList.innerHTML = '<p style="color:var(--text-muted); font-weight:500; text-align:center; margin-top:10px;">No download formats available.</p>';
           }
-
-          // Smooth reveal animation
+          
+          // Toggle off Loading container, show Result
+          loadingCard.classList.remove('show');
           resultCard.style.display = 'block';
-          // Trigger browser reflow
+          // Trigger browser reflow to animate
           void resultCard.offsetWidth;
           resultCard.classList.add('show');
           
         } else {
+          loadingCard.classList.remove('show');
           showToast(data.message || 'Failed to fetch video details.', true);
         }
       } catch (err) {
+        loadingCard.classList.remove('show');
         showToast('Error connecting to API server.', true);
       } finally {
         fetchBtn.disabled = false;
