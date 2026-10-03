@@ -1,44 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FTGM - Universal Downloader</title>
+    <title>UNIVERSAL DOWNLOADER - FTGM TOOLS</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Pro 6.5.1 -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Bold Tech & Display Fonts (Orbitron + Inter + JetBrains Mono) -->
+    <!-- Extra Bold Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700;800&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
-            darkMode: 'class',
+            darkMode: 'media',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            bg: '#04070D',
-                            card: '#0B101D',
-                            border: '#1E293B',
-                            cyan: '#00F0FF',
-                            purple: '#A855F7',
-                            pink: '#EC4899',
-                            green: '#25D366'
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Orbitron', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    },
-                    boxShadow: {
-                        'neon-cyan': '0 0 25px -2px rgba(0, 240, 255, 0.45)',
-                        'neon-purple': '0 0 25px -2px rgba(168, 85, 247, 0.45)',
-                        'neon-green': '0 0 25px -2px rgba(37, 211, 102, 0.5)'
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                     }
                 }
             }
@@ -46,415 +28,150 @@
     </script>
 
     <style>
-        /* Custom scrollbars */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #04070D; }
-        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 999px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
-
-        .font-heading { font-family: 'Orbitron', sans-serif; }
-
-        .glass-box {
-            background: rgba(11, 16, 29, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* Force ultra bold font rules across the board */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-weight: 700;
         }
 
-        .neon-glow-cyan {
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+        h1, h2, h3, h4, h5, button, input, .font-extrabold {
+            font-weight: 900 !important;
         }
 
-        .neon-glow-green {
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
-        }
-
-        /* Platform specific hover gradients */
-        .platform-tiktok:hover { background: rgba(0, 240, 255, 0.15); border-color: #00F0FF; color: #00F0FF; }
-        .platform-fb:hover { background: rgba(24, 119, 242, 0.15); border-color: #1877F2; color: #1877F2; }
-        .platform-insta:hover { background: rgba(225, 48, 108, 0.15); border-color: #E1306C; color: #E1306C; }
-        .platform-yt:hover { background: rgba(255, 0, 0, 0.15); border-color: #FF0000; color: #FF0000; }
-        .platform-x:hover { background: rgba(255, 255, 255, 0.15); border-color: #FFFFFF; color: #FFFFFF; }
-        .platform-pin:hover { background: rgba(230, 1, 35, 0.15); border-color: #E60023; color: #E60023; }
-
-        /* Scanning overlay effect */
-        .scanline-bg {
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0),
-                rgba(255,255,255,0) 50%,
-                rgba(0, 0, 0, 0.3) 50%,
-                rgba(0, 0, 0, 0.3)
-            );
-            background-size: 100% 4px;
+        /* Smooth contrast transitions */
+        body, div, input, button, header, footer {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
         }
     </style>
 </head>
-<body class="bg-brand-bg text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-cyan selection:text-black relative overflow-x-hidden">
 
-    <!-- Top Glow Spots -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-b from-brand-cyan/20 via-brand-purple/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 antialiased flex flex-col justify-between selection:bg-blue-600 selection:text-white">
 
-    <!-- Header Navigation -->
-    <header class="border-b border-slate-800/80 glass-box sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <!-- Header -->
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white text-lg font-black shadow-md">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h1 class="text-xl tracking-tight text-slate-900 dark:text-white uppercase font-black">
+                    UNIVERSAL <span class="text-blue-600 dark:text-blue-500">DOWNLOADER</span>
+                </h1>
+            </div>
             
-            <!-- Logo -->
-            <a href="https://ftgmtools.pages.dev" target="_blank" onclick="AudioFX.playClick()" class="flex items-center space-x-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-purple p-0.5 shadow-neon-cyan transition-transform group-hover:scale-105">
-                    <div class="w-full h-full bg-brand-bg rounded-[10px] flex items-center justify-center">
-                        <i class="fa-solid fa-bolt text-brand-cyan text-lg"></i>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="font-heading font-black text-lg tracking-wider text-white group-hover:text-brand-cyan transition-colors">
-                        FTGM <span class="text-brand-cyan">DOWNLOADER</span>
-                    </h1>
-                    <p class="text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase">FTGM HACKS | FTGM TOOLS</p>
-                </div>
-            </a>
-
-            <!-- Official Website Badge -->
-            <a href="https://ftgmtools.pages.dev" target="_blank" onclick="AudioFX.playClick()" 
-                class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-brand-cyan text-slate-300 hover:text-brand-cyan transition-all font-mono text-xs font-bold flex items-center gap-2 shadow-lg">
-                <i class="fa-solid fa-globe text-brand-cyan"></i>
-                <span class="hidden sm:inline">ftgmtools.pages.dev</span>
-            </a>
-
+            <span class="text-xs font-black tracking-widest text-slate-500 dark:text-slate-400 uppercase bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                FTGM TOOLS
+            </span>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full flex-1 space-y-8 z-10">
-        
-        <!-- Hero Title Section -->
-        <div class="text-center space-y-3">
-            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">
-                <i class="fa-solid fa-layer-group text-brand-cyan"></i> MULTI-PLATFORM MEDIA EXTRACTOR
-            </span>
-            <h2 class="font-heading font-black text-3xl sm:text-5xl tracking-tight text-white uppercase leading-tight">
-                Universal <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink">Downloader</span>
-            </h2>
-            <p class="text-slate-400 text-sm sm:text-base font-medium max-w-lg mx-auto">
-                Paste any video or audio link below to fetch fast high-quality media files.
-            </p>
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto px-4 py-8 sm:py-12 w-full flex-1 space-y-8">
+
+        <!-- Platform Icons -->
+        <div class="flex items-center justify-center gap-4 sm:gap-6 text-2xl">
+            <i class="fa-brands fa-tiktok text-[#000000] dark:text-white hover:scale-110 transition-transform" title="TikTok"></i>
+            <i class="fa-brands fa-instagram text-[#E4405F] hover:scale-110 transition-transform" title="Instagram"></i>
+            <i class="fa-brands fa-facebook text-[#1877F2] hover:scale-110 transition-transform" title="Facebook"></i>
+            <i class="fa-brands fa-youtube text-[#FF0000] hover:scale-110 transition-transform" title="YouTube"></i>
+            <i class="fa-brands fa-x-twitter text-slate-900 dark:text-slate-100 hover:scale-110 transition-transform" title="X / Twitter"></i>
+            <i class="fa-brands fa-pinterest text-[#BD081C] hover:scale-110 transition-transform" title="Pinterest"></i>
         </div>
 
-        <!-- Colorful Supported Platform Icons Bar -->
-        <div class="flex flex-wrap items-center justify-center gap-3 font-mono text-xs font-bold">
-            
-            <!-- TikTok -->
-            <div class="platform-tiktok px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
-                <i class="fa-brands fa-tiktok text-cyan-400 text-base"></i> TikTok
-            </div>
-
-            <!-- Instagram -->
-            <div class="platform-insta px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
-                <i class="fa-brands fa-instagram text-pink-500 text-base"></i> Instagram
-            </div>
-
-            <!-- YouTube -->
-            <div class="platform-yt px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
-                <i class="fa-brands fa-youtube text-red-500 text-base"></i> YouTube
-            </div>
-
-            <!-- Facebook -->
-            <div class="platform-fb px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
-                <i class="fa-brands fa-facebook text-blue-500 text-base"></i> Facebook
-            </div>
-
-            <!-- X / Twitter -->
-            <div class="platform-x px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
-                <i class="fa-brands fa-x-twitter text-slate-200 text-base"></i> X
-            </div>
-
-            <!-- Pinterest -->
-            <div class="platform-pin px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
-                <i class="fa-brands fa-pinterest text-red-600 text-base"></i> Pinterest
-            </div>
-
-        </div>
-
-        <!-- Downloader Input Box -->
-        <div class="glass-box rounded-3xl p-6 sm:p-8 border border-slate-800/80 shadow-2xl relative overflow-hidden">
-            
-            <form id="downloaderForm" class="space-y-6">
-                <div class="space-y-2">
-                    <label for="mediaUrlInput" class="block font-mono text-xs font-bold text-slate-300 tracking-wider uppercase">
-                        PASTE MEDIA URL
-                    </label>
-                    
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
-                            <i class="fa-solid fa-link text-lg"></i>
-                        </div>
-
-                        <input type="url" id="mediaUrlInput" 
-                            placeholder="https://www.instagram.com/reel/..." 
-                            class="w-full bg-brand-bg/90 border-2 border-slate-700/80 rounded-2xl pl-12 pr-28 py-4 text-sm sm:text-base text-slate-100 placeholder-slate-500 font-mono focus:outline-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 transition-all" required>
-                        
-                        <div class="absolute inset-y-0 right-2 flex items-center space-x-1">
-                            <button type="button" id="pasteBtn" title="Paste Clipboard" onclick="AudioFX.playClick()"
-                                class="px-3 py-2 rounded-xl text-xs font-mono font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all flex items-center gap-1.5">
-                                <i class="fa-solid fa-paste text-brand-cyan"></i>
-                                <span class="hidden sm:inline">Paste</span>
-                            </button>
-                            <button type="button" id="clearBtn" title="Clear Field" onclick="AudioFX.playClick()"
-                                class="p-2 text-slate-500 hover:text-slate-300 transition-colors">
-                                <i class="fa-solid fa-circle-xmark text-lg"></i>
-                            </button>
-                        </div>
-                    </div>
+        <!-- Downloader Card -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl dark:shadow-2xl space-y-4">
+            <form id="downloadForm" class="space-y-4">
+                <div class="relative">
+                    <input 
+                        type="url" 
+                        id="mediaUrl" 
+                        placeholder="Paste link here..." 
+                        required
+                        class="w-full bg-slate-50 dark:bg-slate-950 border-2 border-slate-200 dark:border-slate-800 rounded-2xl px-5 py-4 text-slate-900 dark:text-white font-bold placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-600 dark:focus:border-blue-500 transition-all text-base"
+                    >
+                    <button 
+                        type="button" 
+                        id="pasteBtn"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-xs font-black text-slate-700 dark:text-slate-300 transition-colors"
+                    >
+                        PASTE
+                    </button>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" id="submitBtn" onclick="AudioFX.playClick()"
-                    class="w-full font-heading font-black text-base tracking-wider bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink hover:opacity-95 text-slate-950 py-4 px-8 rounded-2xl transition-all transform active:scale-[0.98] shadow-neon-cyan flex items-center justify-center gap-3 uppercase">
-                    <i class="fa-solid fa-cloud-arrow-down text-xl"></i>
-                    <span id="btnText">EXTRACT MEDIA</span>
+                <button 
+                    type="submit" 
+                    id="submitBtn" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-black text-lg py-4 px-6 rounded-2xl transition-all uppercase tracking-wide shadow-lg shadow-blue-600/20 active:scale-[0.99] flex items-center justify-center space-x-2"
+                >
+                    <i class="fa-solid fa-download"></i>
+                    <span id="btnText">DOWNLOAD</span>
                 </button>
             </form>
-
         </div>
 
-        <!-- Results Card -->
-        <div id="resultsContainer" class="hidden space-y-6">
-            <div class="glass-box rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6">
-                
-                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
-                        <h3 class="font-heading font-bold text-white text-sm sm:text-base tracking-wide flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-emerald-400"></i> MEDIA READY FOR DOWNLOAD
-                        </h3>
-                    </div>
-                    <span id="platformBadge" class="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/40">
-                        UNIVERSAL
-                    </span>
-                </div>
-
-                <!-- Details Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                    
-                    <!-- Thumbnail -->
-                    <div class="space-y-2">
-                        <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-video md:aspect-square flex items-center justify-center shadow-lg">
-                            <img id="mediaThumbnail" src="" alt="Thumbnail" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-
-                    <!-- Details & Formats -->
-                    <div class="md:col-span-2 space-y-4">
-                        <div>
-                            <span id="uploaderBadge" class="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/30 px-3 py-1 rounded-lg inline-block">
-                                @UPLOADER
-                            </span>
-                            <h4 id="mediaTitle" class="text-base sm:text-lg font-bold text-white mt-2 leading-snug line-clamp-2">
-                                Video Title
-                            </h4>
-                        </div>
-
-                        <!-- Format Download List -->
-                        <div class="space-y-2 pt-2">
-                            <h5 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                                <i class="fa-solid fa-download text-brand-cyan"></i> DOWNLOAD FORMATS:
-                            </h5>
-                            
-                            <div id="formatsContainer" class="space-y-2 max-h-[350px] overflow-y-auto pr-1">
-                                <!-- Format Items dynamically added here -->
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Inspect Raw JSON Tab -->
-            <div class="glass-box rounded-2xl p-5 border border-slate-800/80 space-y-3">
-                <div class="flex items-center justify-between">
-                    <button type="button" id="toggleJsonBtn" onclick="AudioFX.playClick()" class="text-xs font-mono font-bold text-slate-400 hover:text-brand-cyan transition-colors flex items-center gap-2">
-                        <i id="jsonChevron" class="fa-solid fa-chevron-right text-brand-cyan transition-transform"></i>
-                        <span>INSPECT RAW API JSON</span>
-                    </button>
-                    
-                    <button type="button" id="copyJsonBtn" onclick="AudioFX.playClick()" class="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center gap-1.5">
-                        <i class="fa-solid fa-copy text-brand-cyan"></i>
-                        <span>Copy JSON</span>
-                    </button>
-                </div>
-
-                <div id="jsonDrawer" class="hidden">
-                    <pre id="jsonPreview" class="bg-brand-bg p-4 rounded-xl text-xs font-mono text-emerald-400 overflow-x-auto max-h-80 border border-slate-800 scanline-bg select-all leading-relaxed">
-{ "status": "idle" }
-                    </pre>
+        <!-- Media Output Result -->
+        <div id="resultsCard" class="hidden bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
+            <div class="flex items-center space-x-4">
+                <img id="mediaThumb" src="" alt="Thumbnail" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex-shrink-0">
+                <div class="overflow-hidden space-y-1">
+                    <span id="mediaUploader" class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider block">@UPLOADER</span>
+                    <h3 id="mediaTitle" class="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">Media Title</h3>
                 </div>
             </div>
 
+            <div id="formatsList" class="space-y-2.5 border-t border-slate-100 dark:border-slate-800 pt-4">
+                <!-- Download Buttons Dynamic -->
+            </div>
         </div>
 
-        <!-- Prominent WhatsApp Channel CTA Button -->
-        <div class="pt-4">
-            <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" onclick="AudioFX.playClick()"
-                class="w-full glass-box hover:bg-emerald-950/40 border-2 border-brand-green/60 rounded-3xl p-5 sm:p-6 transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.98] shadow-neon-green flex flex-col sm:flex-row items-center justify-between gap-4 group">
-                
-                <div class="flex items-center space-x-4 text-center sm:text-left">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-green-400 flex items-center justify-center text-slate-950 text-3xl font-black shadow-lg group-hover:rotate-12 transition-transform">
+        <!-- Error Notification -->
+        <div id="errorBox" class="hidden bg-red-50 dark:bg-red-950/40 border-2 border-red-200 dark:border-red-800/60 rounded-2xl p-5 text-center text-red-600 dark:text-red-400 font-black text-sm">
+            <p id="errorMsg">Failed to fetch download link.</p>
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" 
+           class="block bg-emerald-500 hover:bg-emerald-600 text-slate-950 rounded-2xl p-4 sm:p-5 transition-all transform active:scale-[0.99] shadow-lg shadow-emerald-500/20">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-11 h-11 bg-slate-950 rounded-xl flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
                     <div>
-                        <h3 class="font-heading font-black text-lg text-white group-hover:text-brand-green transition-colors flex items-center justify-center sm:justify-start gap-2">
-                            JOIN WHATSAPP CHANNEL
-                            <span class="w-2.5 h-2.5 rounded-full bg-brand-green animate-ping"></span>
-                        </h3>
-                        <p class="text-xs font-mono text-slate-300 mt-1">
-                            Get latest updates, tools, premium scripts & official releases from FTGM HACKS.
-                        </p>
+                        <h4 class="text-base font-black uppercase leading-tight">JOIN WHATSAPP CHANNEL</h4>
+                        <p class="text-xs font-bold text-slate-950/80">Get fast updates & official releases</p>
                     </div>
                 </div>
-
-                <span class="px-6 py-3 rounded-2xl bg-brand-green text-slate-950 font-heading font-black text-xs tracking-wider uppercase transition-all shadow-md group-hover:bg-green-400 flex items-center gap-2">
-                    <span>JOIN NOW</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </span>
-            </a>
-        </div>
+                <i class="fa-solid fa-arrow-right text-xl"></i>
+            </div>
+        </a>
 
     </main>
 
-    <!-- Professional Clean Footer -->
-    <footer class="border-t border-slate-800/80 glass-box py-8 mt-12 z-10">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-mono text-slate-400">
-            
-            <!-- Brand Info -->
-            <div class="text-center md:text-left space-y-1">
-                <p class="font-heading font-bold text-white text-sm">FTGM HACKS | FTGM TOOLS</p>
-                <p class="text-slate-400">DEVELOPED BY <strong class="text-brand-cyan">RANA FAISAL ALI</strong></p>
-            </div>
-
-            <!-- Clean Quick Links -->
-            <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-bold text-slate-300">
-                <a href="https://ftgmtools.pages.dev" target="_blank" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5">
-                    <i class="fa-solid fa-globe text-brand-cyan"></i> Official Website
-                </a>
-                <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" class="hover:text-brand-green transition-colors flex items-center gap-1.5">
-                    <i class="fa-brands fa-whatsapp text-brand-green"></i> WhatsApp Channel
-                </a>
-            </div>
-
-            <!-- Copyright -->
-            <div class="text-center md:text-right text-slate-400">
-                <p>&copy; 2026 All Rights Reserved</p>
-            </div>
-
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <p class="text-xs font-black text-slate-500 dark:text-slate-400 tracking-wider uppercase">
+                &copy; 2026 FTGM TOOLS. ALL RIGHTS RESERVED.
+            </p>
         </div>
     </footer>
 
-    <!-- Error / Access Denied Modal -->
-    <div id="errorModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brand-card border-2 border-red-500/80 rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
-            <div class="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto border border-red-500/40 text-2xl">
-                <i class="fa-solid fa-shield-xmark"></i>
-            </div>
-            <div>
-                <h3 class="font-heading font-black text-xl text-white">ACCESS RESTRICTED</h3>
-                <p class="text-xs font-mono text-red-400 mt-1">UNAUTHORIZED SOURCE OR ERROR DETECTED</p>
-            </div>
-            <div class="bg-brand-bg p-4 rounded-2xl border border-red-500/20 text-left">
-                <p id="modalNotice" class="text-xs font-mono font-bold text-red-400 break-words leading-relaxed text-center">
-                    CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL
-                </p>
-            </div>
-            <button type="button" id="closeModalBtn" onclick="AudioFX.playClick()" class="w-full bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs py-3 rounded-xl transition-colors">
-                CLOSE
-            </button>
-        </div>
-    </div>
-
-    <!-- JavaScript Controller -->
     <script>
-        /* Web Audio Sound Synthesizer */
-        const AudioFX = {
-            ctx: null,
-            init() {
-                if (!this.ctx) {
-                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-            },
-            playClick() {
-                try {
-                    this.init();
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(800, this.ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.05);
-                    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.05);
-                } catch(e) {}
-            },
-            playSuccess() {
-                try {
-                    this.init();
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime);
-                    osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.08);
-                    osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.16);
-                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.3);
-                } catch(e) {}
-            },
-            playError() {
-                try {
-                    this.init();
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(180, this.ctx.currentTime);
-                    osc.frequency.setValueAtTime(110, this.ctx.currentTime + 0.12);
-                    gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.3);
-                } catch(e) {}
-            }
-        };
-
-        // DOM elements
-        const form = document.getElementById('downloaderForm');
-        const mediaUrlInput = document.getElementById('mediaUrlInput');
+        const downloadForm = document.getElementById('downloadForm');
+        const mediaUrlInput = document.getElementById('mediaUrl');
         const pasteBtn = document.getElementById('pasteBtn');
-        const clearBtn = document.getElementById('clearBtn');
         const submitBtn = document.getElementById('submitBtn');
         const btnText = document.getElementById('btnText');
-
-        const resultsContainer = document.getElementById('resultsContainer');
-        const mediaThumbnail = document.getElementById('mediaThumbnail');
+        
+        const resultsCard = document.getElementById('resultsCard');
+        const mediaThumb = document.getElementById('mediaThumb');
         const mediaTitle = document.getElementById('mediaTitle');
-        const uploaderBadge = document.getElementById('uploaderBadge');
-        const platformBadge = document.getElementById('platformBadge');
-        const formatsContainer = document.getElementById('formatsContainer');
-
-        const toggleJsonBtn = document.getElementById('toggleJsonBtn');
-        const jsonDrawer = document.getElementById('jsonDrawer');
-        const jsonChevron = document.getElementById('jsonChevron');
-        const jsonPreview = document.getElementById('jsonPreview');
-        const copyJsonBtn = document.getElementById('copyJsonBtn');
-
-        const errorModal = document.getElementById('errorModal');
-        const modalNotice = document.getElementById('modalNotice');
-        const closeModalBtn = document.getElementById('closeModalBtn');
+        const mediaUploader = document.getElementById('mediaUploader');
+        const formatsList = document.getElementById('formatsList');
+        
+        const errorBox = document.getElementById('errorBox');
+        const errorMsg = document.getElementById('errorMsg');
 
         // Clipboard Paste
         pasteBtn.addEventListener('click', async () => {
@@ -466,150 +183,86 @@
             }
         });
 
-        // Clear input
-        clearBtn.addEventListener('click', () => {
-            mediaUrlInput.value = '';
-            mediaUrlInput.focus();
-        });
-
-        // Toggle JSON drawer
-        toggleJsonBtn.addEventListener('click', () => {
-            jsonDrawer.classList.toggle('hidden');
-            jsonChevron.classList.toggle('rotate-90');
-        });
-
-        // Copy JSON
-        copyJsonBtn.addEventListener('click', () => {
-            const text = jsonPreview.textContent;
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            const orig = copyJsonBtn.innerHTML;
-            copyJsonBtn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i><span>Copied!</span>`;
-            setTimeout(() => { copyJsonBtn.innerHTML = orig; }, 2000);
-        });
-
-        // Modal Close
-        closeModalBtn.addEventListener('click', () => {
-            errorModal.classList.add('hidden');
-        });
-
-        // Platform detector
-        function detectPlatform(url) {
-            if (url.includes('instagram.com')) return 'INSTAGRAM';
-            if (url.includes('tiktok.com')) return 'TIKTOK';
-            if (url.includes('youtube.com') || url.includes('youtu.be')) return 'YOUTUBE';
-            if (url.includes('facebook.com') || url.includes('fb.watch')) return 'FACEBOOK';
-            if (url.includes('twitter.com') || url.includes('x.com')) return 'TWITTER / X';
-            if (url.includes('pinterest.com')) return 'PINTEREST';
-            return 'UNIVERSAL MEDIA';
-        }
-
-        // Form Submit Handler
-        form.addEventListener('submit', async (e) => {
+        // Form Submission
+        downloadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const url = mediaUrlInput.value.trim();
+            if (!url) return;
 
-            const mediaUrl = mediaUrlInput.value.trim();
-            if (!mediaUrl) return;
-
-            const endpoint = `/api?url=${encodeURIComponent(mediaUrl)}`;
-
+            // Reset UI
+            resultsCard.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            
             submitBtn.disabled = true;
-            btnText.textContent = 'FETCHING MEDIA...';
-            submitBtn.querySelector('i').className = 'fa-solid fa-spinner animate-spin text-xl';
+            btnText.textContent = 'PROCESSING...';
+            submitBtn.querySelector('i').className = 'fa-solid fa-circle-notch animate-spin';
 
             try {
-                const response = await fetch(endpoint);
-                
-                if (response.status === 403) {
-                    AudioFX.playError();
-                    const errData = await response.json();
-                    renderJson(errData);
-                    showError(errData.notice || "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
-                    return;
-                }
-
+                const response = await fetch(`/api?url=${encodeURIComponent(url)}`);
                 const data = await response.json();
-                renderJson(data);
 
-                if (data.status === 'error' || !data.video_info) {
-                    AudioFX.playError();
-                    showError(data.notice || data.message || "Failed to fetch video details.");
+                if (response.status === 403) {
+                    showError(data.notice || "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
                     return;
                 }
 
-                AudioFX.playSuccess();
-                renderResults(data, mediaUrl);
+                if (data.status === "error" || !data.video_info) {
+                    showError(data.notice || data.message || "UNABLE TO FETCH MEDIA FORMATS.");
+                    return;
+                }
+
+                renderMedia(data.video_info);
 
             } catch (err) {
-                AudioFX.playError();
-                const fallback = {
-                    status: "error",
-                    notice: "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL",
-                    details: err.message
-                };
-                renderJson(fallback);
-                showError(fallback.notice);
+                showError("CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
             } finally {
                 submitBtn.disabled = false;
-                btnText.textContent = 'EXTRACT MEDIA';
-                submitBtn.querySelector('i').className = 'fa-solid fa-cloud-arrow-down text-xl';
+                btnText.textContent = 'DOWNLOAD';
+                submitBtn.querySelector('i').className = 'fa-solid fa-download';
             }
         });
 
-        function renderResults(data, originalUrl) {
-            resultsContainer.classList.remove('hidden');
-            const info = data.video_info;
+        function renderMedia(info) {
+            resultsCard.classList.remove('hidden');
+            mediaThumb.src = info.thumbnail || 'https://placehold.co/200x200?text=No+Preview';
+            mediaTitle.textContent = info.title || 'Extracted Media';
+            mediaUploader.textContent = `@${info.uploader || 'FTGM_TOOLS'}`;
 
-            mediaThumbnail.src = info.thumbnail || 'https://placehold.co/600x600/0B101D/00F0FF?text=No+Preview';
-            mediaTitle.textContent = info.title || 'Extracted Video File';
-            uploaderBadge.textContent = `@${info.uploader || 'FTGM_USER'}`;
-            platformBadge.textContent = detectPlatform(originalUrl);
-
-            formatsContainer.innerHTML = '';
+            formatsList.innerHTML = '';
 
             if (Array.isArray(info.available_formats) && info.available_formats.length > 0) {
                 info.available_formats.forEach((fmt) => {
                     const isAudio = fmt.type === 'audio' || fmt.extension === 'mp3';
-                    const item = document.createElement('div');
-                    item.className = 'flex items-center justify-between p-3.5 bg-brand-bg/90 rounded-2xl border border-slate-800 hover:border-brand-cyan/50 transition-all';
+                    const link = document.createElement('a');
+                    link.href = fmt.download_url;
+                    link.target = '_blank';
+                    link.download = true;
+                    link.className = 'flex items-center justify-between p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors group';
 
-                    item.innerHTML = `
+                    link.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-9 h-9 rounded-xl ${isAudio ? 'bg-brand-purple/20 text-brand-purple border border-brand-purple/30' : 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30'} flex items-center justify-center font-bold text-sm">
-                                <i class="fa-solid ${isAudio ? 'fa-music' : 'fa-video'}"></i>
-                            </div>
+                            <i class="fa-solid ${isAudio ? 'fa-music text-purple-600 dark:text-purple-400' : 'fa-video text-blue-600 dark:text-blue-400'} text-base"></i>
                             <div>
-                                <h6 class="text-xs font-bold text-slate-100">${fmt.quality || 'High Quality'}</h6>
-                                <p class="text-[10px] font-mono text-slate-400 uppercase">${fmt.extension || 'mp4'} • ${fmt.type || 'media'}</p>
+                                <span class="text-xs font-black text-slate-900 dark:text-white uppercase block">${fmt.quality || 'HIGH QUALITY'}</span>
+                                <span class="text-[10px] font-bold text-slate-500 uppercase">${fmt.extension || 'MP4'}</span>
                             </div>
                         </div>
-
-                        <a href="${fmt.download_url}" target="_blank" onclick="AudioFX.playClick()" download
-                            class="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-purple text-slate-950 font-heading font-black text-xs transition-all hover:opacity-90 shadow-neon-cyan flex items-center gap-1.5">
-                            <i class="fa-solid fa-download"></i> DOWNLOAD
-                        </a>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-blue-600 group-hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider">
+                            SAVE
+                        </span>
                     `;
-                    formatsContainer.appendChild(item);
+                    formatsList.appendChild(link);
                 });
             } else {
-                formatsContainer.innerHTML = `<p class="text-xs font-mono text-slate-500">No format options available.</p>`;
+                formatsList.innerHTML = `<p class="text-xs font-black text-slate-500 uppercase">NO FORMATS AVAILABLE.</p>`;
             }
 
-            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function renderJson(data) {
-            jsonPreview.textContent = JSON.stringify(data, null, 2);
-        }
-
-        function showError(msg) {
-            modalNotice.textContent = msg;
-            errorModal.classList.remove('hidden');
+        function showError(message) {
+            errorMsg.textContent = message;
+            errorBox.classList.remove('hidden');
         }
     </script>
 </body>
