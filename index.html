@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FTGM - Universal Video & Media Downloader</title>
-    
+    <title>FTGM - Universal Downloader</title>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <!-- FontAwesome Pro 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Bold Tech & Display Fonts (Orbitron + Inter + JetBrains Mono) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700;800&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        cyber: {
-                            bg: '#07090E',
-                            card: '#0F172A',
+                        brand: {
+                            bg: '#04070D',
+                            card: '#0B101D',
                             border: '#1E293B',
-                            cyan: '#06B6D4',
-                            cyanGlow: '#00F0FF',
-                            purple: '#8B5CF6',
-                            purpleGlow: '#A855F7',
+                            cyan: '#00F0FF',
+                            purple: '#A855F7',
                             pink: '#EC4899',
-                            emerald: '#10B981'
+                            green: '#25D366'
                         }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        heading: ['Orbitron', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace']
                     },
                     boxShadow: {
-                        'neon-cyan': '0 0 25px -2px rgba(6, 182, 212, 0.4), 0 0 10px -2px rgba(6, 182, 212, 0.2)',
-                        'neon-purple': '0 0 25px -2px rgba(139, 92, 246, 0.4), 0 0 10px -2px rgba(139, 92, 246, 0.2)',
-                        'neon-pink': '0 0 25px -2px rgba(236, 72, 153, 0.4)',
-                        'neon-red': '0 0 25px -2px rgba(239, 68, 68, 0.4)'
+                        'neon-cyan': '0 0 25px -2px rgba(0, 240, 255, 0.45)',
+                        'neon-purple': '0 0 25px -2px rgba(168, 85, 247, 0.45)',
+                        'neon-green': '0 0 25px -2px rgba(37, 211, 102, 0.5)'
                     }
                 }
             }
@@ -46,264 +46,221 @@
     </script>
 
     <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #07090E;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1E293B;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #06B6D4;
-        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #04070D; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
 
-        .glass-card {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        .font-heading { font-family: 'Orbitron', sans-serif; }
+
+        .glass-box {
+            background: rgba(11, 16, 29, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .neon-border-cyan {
-            position: relative;
-        }
-        .neon-border-cyan::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(135deg, #06B6D4, #8B5CF6, #EC4899);
-            border-radius: inherit;
-            z-index: -1;
-            opacity: 0.4;
-            transition: opacity 0.3s ease;
-        }
-        .neon-border-cyan:hover::before {
-            opacity: 1;
+        .neon-glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
         }
 
-        /* Ambient background glow points */
-        .bg-glow-1 {
-            position: absolute;
-            top: -10%;
-            left: 20%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(0,0,0,0) 70%);
-            z-index: 0;
-            pointer-events: none;
-        }
-        .bg-glow-2 {
-            position: absolute;
-            top: 30%;
-            right: 10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(0,0,0,0) 70%);
-            z-index: 0;
-            pointer-events: none;
+        .neon-glow-green {
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
         }
 
-        /* Scanline Overlay */
-        .scanline {
+        /* Platform specific hover gradients */
+        .platform-tiktok:hover { background: rgba(0, 240, 255, 0.15); border-color: #00F0FF; color: #00F0FF; }
+        .platform-fb:hover { background: rgba(24, 119, 242, 0.15); border-color: #1877F2; color: #1877F2; }
+        .platform-insta:hover { background: rgba(225, 48, 108, 0.15); border-color: #E1306C; color: #E1306C; }
+        .platform-yt:hover { background: rgba(255, 0, 0, 0.15); border-color: #FF0000; color: #FF0000; }
+        .platform-x:hover { background: rgba(255, 255, 255, 0.15); border-color: #FFFFFF; color: #FFFFFF; }
+        .platform-pin:hover { background: rgba(230, 1, 35, 0.15); border-color: #E60023; color: #E60023; }
+
+        /* Scanning overlay effect */
+        .scanline-bg {
             background: linear-gradient(
                 to bottom,
                 rgba(255,255,255,0),
                 rgba(255,255,255,0) 50%,
-                rgba(0, 0, 0, 0.25) 50%,
-                rgba(0, 0, 0, 0.25)
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
             );
             background-size: 100% 4px;
         }
-
-        /* Pulse glow animation */
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.02); }
-        }
-        .animate-pulse-glow {
-            animation: pulse-glow 3s infinite ease-in-out;
-        }
     </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyber-cyan selection:text-black relative overflow-x-hidden">
+<body class="bg-brand-bg text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-cyan selection:text-black relative overflow-x-hidden">
 
-    <!-- Ambient background glows -->
-    <div class="bg-glow-1"></div>
-    <div class="bg-glow-2"></div>
+    <!-- Top Glow Spots -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-b from-brand-cyan/20 via-brand-purple/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
 
-    <!-- Top Header -->
-    <header class="border-b border-cyber-border/80 glass-card sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800/80 glass-box sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             
-            <!-- Brand Logo -->
-            <div class="flex items-center space-x-3">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyber-cyan via-cyber-purple to-cyber-pink p-0.5 shadow-neon-cyan cursor-pointer" onclick="AudioFX.playClick()">
-                    <div class="w-full h-full bg-cyber-bg rounded-[14px] flex items-center justify-center">
-                        <i class="fa-solid fa-cloud-arrow-down text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan to-cyber-purple text-xl"></i>
+            <!-- Logo -->
+            <a href="https://ftgmtools.pages.dev" target="_blank" onclick="AudioFX.playClick()" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-purple p-0.5 shadow-neon-cyan transition-transform group-hover:scale-105">
+                    <div class="w-full h-full bg-brand-bg rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-bolt text-brand-cyan text-lg"></i>
                     </div>
                 </div>
                 <div>
-                    <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-cyan-200 to-cyber-cyan bg-clip-text text-transparent flex items-center gap-2">
-                        FTGM UNIVERSAL DOWNLOADER
+                    <h1 class="font-heading font-black text-lg tracking-wider text-white group-hover:text-brand-cyan transition-colors">
+                        FTGM <span class="text-brand-cyan">DOWNLOADER</span>
                     </h1>
-                    <p class="text-[11px] text-slate-400 font-mono tracking-wider">FTGM TOOLS • POWERED BY RANA FAISAL ALI</p>
+                    <p class="text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase">FTGM HACKS | FTGM TOOLS</p>
                 </div>
-            </div>
+            </a>
 
-            <!-- Header Community Buttons -->
-            <div class="flex items-center space-x-2 sm:space-x-3 text-xs font-mono">
-                <a href="https://ftgmtools.pages.dev" target="_blank" onclick="AudioFX.playClick()" class="px-3 py-2 rounded-xl bg-slate-900/80 hover:bg-cyber-cyan/20 text-slate-300 hover:text-cyber-cyan border border-slate-700/60 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-globe text-cyber-cyan"></i>
-                    <span class="hidden sm:inline">Web:</span> ftgmtools.pages.dev
-                </a>
-                <a href="https://pak-digital.store" target="_blank" onclick="AudioFX.playClick()" class="px-3 py-2 rounded-xl bg-slate-900/80 hover:bg-cyber-purple/20 text-slate-300 hover:text-cyber-purple border border-slate-700/60 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-store text-cyber-purple"></i>
-                    <span class="hidden sm:inline">Store:</span> pak-digital.store
-                </a>
-            </div>
+            <!-- Official Website Badge -->
+            <a href="https://ftgmtools.pages.dev" target="_blank" onclick="AudioFX.playClick()" 
+                class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-brand-cyan text-slate-300 hover:text-brand-cyan transition-all font-mono text-xs font-bold flex items-center gap-2 shadow-lg">
+                <i class="fa-solid fa-globe text-brand-cyan"></i>
+                <span class="hidden sm:inline">ftgmtools.pages.dev</span>
+            </a>
+
         </div>
     </header>
 
-    <!-- Main App Container -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 z-10 space-y-8">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full flex-1 space-y-8 z-10">
         
-        <!-- Hero Title Banner -->
+        <!-- Hero Title Section -->
         <div class="text-center space-y-3">
-            <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30 shadow-neon-cyan">
-                <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-ping"></span> MULTI-PLATFORM MEDIA EXTRACTOR
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">
+                <i class="fa-solid fa-layer-group text-brand-cyan"></i> MULTI-PLATFORM MEDIA EXTRACTOR
             </span>
-            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                Download Any Media <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-pink">In Seconds</span>
+            <h2 class="font-heading font-black text-3xl sm:text-5xl tracking-tight text-white uppercase leading-tight">
+                Universal <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink">Downloader</span>
             </h2>
-            <p class="text-sm text-slate-400 max-w-xl mx-auto">
-                Extract high quality videos, reels, shorts, and audio files effortlessly. Supported on Instagram, TikTok, YouTube, Facebook, X, Pinterest & more.
+            <p class="text-slate-400 text-sm sm:text-base font-medium max-w-lg mx-auto">
+                Paste any video or audio link below to fetch fast high-quality media files.
             </p>
         </div>
 
-        <!-- Input Box Section -->
-        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden neon-border-cyan">
+        <!-- Colorful Supported Platform Icons Bar -->
+        <div class="flex flex-wrap items-center justify-center gap-3 font-mono text-xs font-bold">
             
-            <form id="downloaderForm" class="space-y-6">
-                <!-- Endpoint Switcher / Config Drawer trigger -->
-                <div class="flex items-center justify-between text-xs font-mono">
-                    <span class="text-slate-400 flex items-center gap-1.5">
-                        <i class="fa-solid fa-server text-cyber-cyan"></i> API TARGET:
-                    </span>
-                    <button type="button" id="toggleApiConfigBtn" onclick="AudioFX.playClick()" class="text-slate-400 hover:text-cyber-cyan transition-colors flex items-center gap-1">
-                        <span id="currentApiDisplay" class="text-cyan-400 font-bold">/api?url=</span>
-                        <i class="fa-solid fa-gear text-slate-500"></i>
-                    </button>
-                </div>
+            <!-- TikTok -->
+            <div class="platform-tiktok px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
+                <i class="fa-brands fa-tiktok text-cyan-400 text-base"></i> TikTok
+            </div>
 
-                <!-- Hidden / Expandable Custom Endpoint Field -->
-                <div id="apiConfigDrawer" class="hidden p-3.5 bg-cyber-bg/90 border border-slate-800 rounded-2xl space-y-2">
-                    <label class="block text-[11px] font-mono text-slate-400">CUSTOM BACKEND ENDPOINT URL</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="customApiInput" value="/api" placeholder="e.g. /api or https://your-app.vercel.app/api" 
-                            class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyber-cyan">
-                        <button type="button" id="resetApiBtn" onclick="AudioFX.playClick()" class="px-3 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-mono hover:bg-slate-700">Reset</button>
-                    </div>
-                </div>
+            <!-- Instagram -->
+            <div class="platform-insta px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
+                <i class="fa-brands fa-instagram text-pink-500 text-base"></i> Instagram
+            </div>
 
-                <!-- Main Link Input Field -->
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
-                        <i class="fa-solid fa-link text-lg"></i>
-                    </div>
-                    <input type="url" id="mediaUrlInput" 
-                        placeholder="Paste video or media link here (e.g. https://www.instagram.com/reel/...)" 
-                        class="w-full bg-cyber-bg/90 border-2 border-slate-700/80 rounded-2xl pl-12 pr-28 py-4 text-sm sm:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyber-cyan focus:ring-2 focus:ring-cyber-cyan/30 transition-all font-sans" required>
-                    
-                    <div class="absolute inset-y-0 right-2 flex items-center space-x-1">
-                        <button type="button" id="pasteBtn" title="Paste Clipboard" onclick="AudioFX.playClick()"
-                            class="px-3 py-2 rounded-xl text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all flex items-center gap-1.5">
-                            <i class="fa-solid fa-paste text-cyber-cyan"></i>
-                            <span class="hidden sm:inline">Paste</span>
-                        </button>
-                        <button type="button" id="clearBtn" title="Clear Text" onclick="AudioFX.playClick()"
-                            class="p-2 text-slate-500 hover:text-slate-300 transition-colors">
-                            <i class="fa-solid fa-circle-xmark text-lg"></i>
-                        </button>
-                    </div>
-                </div>
+            <!-- YouTube -->
+            <div class="platform-yt px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
+                <i class="fa-brands fa-youtube text-red-500 text-base"></i> YouTube
+            </div>
 
-                <!-- Supported Platform Badges -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
-                    <div class="flex flex-wrap items-center gap-2 text-slate-400 text-xs font-mono">
-                        <span class="text-[11px] text-slate-500">SUPPORTED:</span>
-                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-1.5 hover:border-pink-500/50 transition-colors"><i class="fa-brands fa-instagram text-pink-500"></i> Insta</span>
-                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-1.5 hover:border-cyan-400/50 transition-colors"><i class="fa-brands fa-tiktok text-cyan-400"></i> TikTok</span>
-                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-1.5 hover:border-red-500/50 transition-colors"><i class="fa-brands fa-youtube text-red-500"></i> YouTube</span>
-                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-1.5 hover:border-blue-500/50 transition-colors"><i class="fa-brands fa-facebook text-blue-500"></i> FB</span>
-                        <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-1.5 hover:border-slate-300/50 transition-colors"><i class="fa-brands fa-x-twitter text-slate-200"></i> X</span>
-                    </div>
+            <!-- Facebook -->
+            <div class="platform-fb px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
+                <i class="fa-brands fa-facebook text-blue-500 text-base"></i> Facebook
+            </div>
 
-                    <!-- Fetch Button -->
-                    <button type="submit" id="submitBtn" onclick="AudioFX.playClick()"
-                        class="w-full sm:w-auto min-w-[200px] bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-pink hover:opacity-95 text-slate-950 font-extrabold py-4 px-8 rounded-2xl transition-all duration-300 transform active:scale-95 shadow-neon-cyan flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-bolt text-lg"></i>
-                        <span id="btnText" class="tracking-wide">FETCH MEDIA</span>
-                    </button>
-                </div>
-            </form>
+            <!-- X / Twitter -->
+            <div class="platform-x px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
+                <i class="fa-brands fa-x-twitter text-slate-200 text-base"></i> X
+            </div>
+
+            <!-- Pinterest -->
+            <div class="platform-pin px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 transition-all flex items-center gap-2 shadow-md">
+                <i class="fa-brands fa-pinterest text-red-600 text-base"></i> Pinterest
+            </div>
+
         </div>
 
-        <!-- Results Section (Hidden until valid response) -->
-        <div id="resultsContainer" class="hidden space-y-6">
+        <!-- Downloader Input Box -->
+        <div class="glass-box rounded-3xl p-6 sm:p-8 border border-slate-800/80 shadow-2xl relative overflow-hidden">
             
-            <!-- Media Preview Card -->
-            <div class="glass-card rounded-3xl p-6 border border-slate-800 shadow-2xl space-y-6">
+            <form id="downloaderForm" class="space-y-6">
+                <div class="space-y-2">
+                    <label for="mediaUrlInput" class="block font-mono text-xs font-bold text-slate-300 tracking-wider uppercase">
+                        PASTE MEDIA URL
+                    </label>
+                    
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                            <i class="fa-solid fa-link text-lg"></i>
+                        </div>
+
+                        <input type="url" id="mediaUrlInput" 
+                            placeholder="https://www.instagram.com/reel/..." 
+                            class="w-full bg-brand-bg/90 border-2 border-slate-700/80 rounded-2xl pl-12 pr-28 py-4 text-sm sm:text-base text-slate-100 placeholder-slate-500 font-mono focus:outline-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 transition-all" required>
+                        
+                        <div class="absolute inset-y-0 right-2 flex items-center space-x-1">
+                            <button type="button" id="pasteBtn" title="Paste Clipboard" onclick="AudioFX.playClick()"
+                                class="px-3 py-2 rounded-xl text-xs font-mono font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-paste text-brand-cyan"></i>
+                                <span class="hidden sm:inline">Paste</span>
+                            </button>
+                            <button type="button" id="clearBtn" title="Clear Field" onclick="AudioFX.playClick()"
+                                class="p-2 text-slate-500 hover:text-slate-300 transition-colors">
+                                <i class="fa-solid fa-circle-xmark text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" onclick="AudioFX.playClick()"
+                    class="w-full font-heading font-black text-base tracking-wider bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink hover:opacity-95 text-slate-950 py-4 px-8 rounded-2xl transition-all transform active:scale-[0.98] shadow-neon-cyan flex items-center justify-center gap-3 uppercase">
+                    <i class="fa-solid fa-cloud-arrow-down text-xl"></i>
+                    <span id="btnText">EXTRACT MEDIA</span>
+                </button>
+            </form>
+
+        </div>
+
+        <!-- Results Card -->
+        <div id="resultsContainer" class="hidden space-y-6">
+            <div class="glass-box rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6">
                 
-                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-                        <h3 class="text-base font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-emerald-400"></i> Media Extracted Successfully
+                        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+                        <h3 class="font-heading font-bold text-white text-sm sm:text-base tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i> MEDIA READY FOR DOWNLOAD
                         </h3>
                     </div>
-                    <span id="platformBadge" class="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-cyber-purple/20 text-cyber-purpleGlow border border-cyber-purple/40">
-                        UNIVERSAL FORMAT
+                    <span id="platformBadge" class="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/40">
+                        UNIVERSAL
                     </span>
                 </div>
 
-                <!-- Media Details Grid -->
+                <!-- Details Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                     
-                    <!-- Media Thumbnail -->
-                    <div class="space-y-3">
-                        <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-video md:aspect-square flex items-center justify-center group shadow-xl">
-                            <img id="mediaThumbnail" src="" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70"></div>
-                            <span class="absolute bottom-3 left-3 text-[11px] font-mono bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg text-slate-300 border border-slate-700/60">
-                                <i class="fa-solid fa-image text-cyber-cyan mr-1"></i> Preview
-                            </span>
+                    <!-- Thumbnail -->
+                    <div class="space-y-2">
+                        <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-video md:aspect-square flex items-center justify-center shadow-lg">
+                            <img id="mediaThumbnail" src="" alt="Thumbnail" class="w-full h-full object-cover">
                         </div>
                     </div>
 
-                    <!-- Media Info & Download Buttons -->
+                    <!-- Details & Formats -->
                     <div class="md:col-span-2 space-y-4">
                         <div>
-                            <span id="uploaderBadge" class="text-xs font-mono font-bold text-cyber-cyan bg-cyber-cyan/10 border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">
+                            <span id="uploaderBadge" class="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/30 px-3 py-1 rounded-lg inline-block">
                                 @UPLOADER
                             </span>
-                            <h4 id="mediaTitle" class="text-lg font-bold text-white mt-2 leading-snug line-clamp-2">
+                            <h4 id="mediaTitle" class="text-base sm:text-lg font-bold text-white mt-2 leading-snug line-clamp-2">
                                 Video Title
                             </h4>
                         </div>
 
-                        <!-- Downloads Grid -->
-                        <div class="space-y-2.5 pt-2">
-                            <h5 class="text-xs font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-[#00F0FF] fa-list-check text-cyber-cyan"></i> SELECT DOWNLOAD QUALITY:
+                        <!-- Format Download List -->
+                        <div class="space-y-2 pt-2">
+                            <h5 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-download text-brand-cyan"></i> DOWNLOAD FORMATS:
                             </h5>
                             
-                            <div id="formatsContainer" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
-                                <!-- Dynamic Format Items get injected here -->
+                            <div id="formatsContainer" class="space-y-2 max-h-[350px] overflow-y-auto pr-1">
+                                <!-- Format Items dynamically added here -->
                             </div>
                         </div>
                     </div>
@@ -312,23 +269,22 @@
 
             </div>
 
-            <!-- Developer Metadata & Raw JSON Viewer -->
-            <div class="glass-card rounded-3xl p-6 border border-slate-800 shadow-xl space-y-4">
+            <!-- Inspect Raw JSON Tab -->
+            <div class="glass-box rounded-2xl p-5 border border-slate-800/80 space-y-3">
                 <div class="flex items-center justify-between">
-                    <button type="button" id="toggleJsonBtn" onclick="AudioFX.playClick()" class="text-xs font-mono text-slate-400 hover:text-cyber-cyan transition-colors flex items-center gap-2">
-                        <i id="jsonChevron" class="fa-solid fa-chevron-right text-cyber-cyan transition-transform"></i>
-                        <span>INSPECT RAW API RESPONSE (PRETTY JSON)</span>
+                    <button type="button" id="toggleJsonBtn" onclick="AudioFX.playClick()" class="text-xs font-mono font-bold text-slate-400 hover:text-brand-cyan transition-colors flex items-center gap-2">
+                        <i id="jsonChevron" class="fa-solid fa-chevron-right text-brand-cyan transition-transform"></i>
+                        <span>INSPECT RAW API JSON</span>
                     </button>
                     
-                    <button type="button" id="copyJsonBtn" onclick="AudioFX.playClick()" class="text-xs font-mono px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center gap-1.5">
-                        <i class="fa-solid fa-copy text-cyber-cyan"></i>
+                    <button type="button" id="copyJsonBtn" onclick="AudioFX.playClick()" class="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-copy text-brand-cyan"></i>
                         <span>Copy JSON</span>
                     </button>
                 </div>
 
-                <!-- JSON Box -->
                 <div id="jsonDrawer" class="hidden">
-                    <pre id="jsonPreview" class="bg-cyber-bg p-4 rounded-2xl text-xs font-mono text-emerald-400 overflow-x-auto max-h-96 border border-slate-800 leading-relaxed scanline select-all">
+                    <pre id="jsonPreview" class="bg-brand-bg p-4 rounded-xl text-xs font-mono text-emerald-400 overflow-x-auto max-h-80 border border-slate-800 scanline-bg select-all leading-relaxed">
 { "status": "idle" }
                     </pre>
                 </div>
@@ -336,52 +292,87 @@
 
         </div>
 
+        <!-- Prominent WhatsApp Channel CTA Button -->
+        <div class="pt-4">
+            <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" onclick="AudioFX.playClick()"
+                class="w-full glass-box hover:bg-emerald-950/40 border-2 border-brand-green/60 rounded-3xl p-5 sm:p-6 transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.98] shadow-neon-green flex flex-col sm:flex-row items-center justify-between gap-4 group">
+                
+                <div class="flex items-center space-x-4 text-center sm:text-left">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-green-400 flex items-center justify-center text-slate-950 text-3xl font-black shadow-lg group-hover:rotate-12 transition-transform">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-black text-lg text-white group-hover:text-brand-green transition-colors flex items-center justify-center sm:justify-start gap-2">
+                            JOIN WHATSAPP CHANNEL
+                            <span class="w-2.5 h-2.5 rounded-full bg-brand-green animate-ping"></span>
+                        </h3>
+                        <p class="text-xs font-mono text-slate-300 mt-1">
+                            Get latest updates, tools, premium scripts & official releases from FTGM HACKS.
+                        </p>
+                    </div>
+                </div>
+
+                <span class="px-6 py-3 rounded-2xl bg-brand-green text-slate-950 font-heading font-black text-xs tracking-wider uppercase transition-all shadow-md group-hover:bg-green-400 flex items-center gap-2">
+                    <span>JOIN NOW</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </a>
+        </div>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-cyber-border/80 glass-card py-8 mt-16 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-400">
-            <div class="flex flex-wrap items-center gap-2 text-center md:text-left">
-                <span>&copy; 2026</span>
-                <span class="text-cyber-cyan font-bold">FTGM TOOLS</span>
-                <span>•</span>
-                <span>DEVELOPED BY <strong class="text-slate-200">RANA FAISAL ALI</strong></span>
-            </div>
+    <!-- Professional Clean Footer -->
+    <footer class="border-t border-slate-800/80 glass-box py-8 mt-12 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-mono text-slate-400">
             
-            <div class="flex items-center space-x-4">
-                <a href="https://ftgmtools.pages.dev" target="_blank" class="hover:text-cyber-cyan transition-colors">ftgmtools.pages.dev</a>
-                <span>•</span>
-                <a href="https://pak-digital.store" target="_blank" class="hover:text-cyber-purple transition-colors">pak-digital.store</a>
-                <span>•</span>
-                <span class="text-cyber-pink font-bold">FTGM HACKS</span>
+            <!-- Brand Info -->
+            <div class="text-center md:text-left space-y-1">
+                <p class="font-heading font-bold text-white text-sm">FTGM HACKS | FTGM TOOLS</p>
+                <p class="text-slate-400">DEVELOPED BY <strong class="text-brand-cyan">RANA FAISAL ALI</strong></p>
             </div>
+
+            <!-- Clean Quick Links -->
+            <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-bold text-slate-300">
+                <a href="https://ftgmtools.pages.dev" target="_blank" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-globe text-brand-cyan"></i> Official Website
+                </a>
+                <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" class="hover:text-brand-green transition-colors flex items-center gap-1.5">
+                    <i class="fa-brands fa-whatsapp text-brand-green"></i> WhatsApp Channel
+                </a>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center md:text-right text-slate-400">
+                <p>&copy; 2026 All Rights Reserved</p>
+            </div>
+
         </div>
     </footer>
 
-    <!-- Access Denied / Error Modal -->
-    <div id="errorModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-cyber-card border-2 border-red-500/60 rounded-3xl max-w-md w-full p-6 shadow-neon-red text-center space-y-4 animate-bounce-short">
+    <!-- Error / Access Denied Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border-2 border-red-500/80 rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
             <div class="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto border border-red-500/40 text-2xl">
                 <i class="fa-solid fa-shield-xmark"></i>
             </div>
             <div>
-                <h3 id="modalTitle" class="text-xl font-extrabold text-white">ACCESS DENIED</h3>
-                <p id="modalSub" class="text-xs font-mono text-red-400 mt-1">HTTP 403: RESTRICTED DOMAIN DETECTED</p>
+                <h3 class="font-heading font-black text-xl text-white">ACCESS RESTRICTED</h3>
+                <p class="text-xs font-mono text-red-400 mt-1">UNAUTHORIZED SOURCE OR ERROR DETECTED</p>
             </div>
-            <div class="bg-cyber-bg p-4 rounded-2xl border border-red-500/20 text-left space-y-2">
-                <span class="text-[10px] font-mono text-slate-500 block">SYSTEM MESSAGE:</span>
-                <p id="modalNotice" class="text-sm font-bold font-mono text-red-400 break-words">
+            <div class="bg-brand-bg p-4 rounded-2xl border border-red-500/20 text-left">
+                <p id="modalNotice" class="text-xs font-mono font-bold text-red-400 break-words leading-relaxed text-center">
                     CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL
                 </p>
             </div>
-            <button type="button" id="closeModalBtn" onclick="AudioFX.playClick()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition-colors font-mono text-xs shadow-lg">
-                CLOSE NOTICE
+            <button type="button" id="closeModalBtn" onclick="AudioFX.playClick()" class="w-full bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs py-3 rounded-xl transition-colors">
+                CLOSE
             </button>
         </div>
     </div>
 
+    <!-- JavaScript Controller -->
     <script>
-        /* Web Audio Sound Synthesizer (No external audio assets needed) */
+        /* Web Audio Sound Synthesizer */
         const AudioFX = {
             ctx: null,
             init() {
@@ -411,9 +402,9 @@
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
-                    osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.08); // E5
-                    osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.16); // G5
+                    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.08);
+                    osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.16);
                     gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
                     gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
                     osc.connect(gain);
@@ -440,30 +431,24 @@
             }
         };
 
-        // DOM Elements
+        // DOM elements
         const form = document.getElementById('downloaderForm');
         const mediaUrlInput = document.getElementById('mediaUrlInput');
         const pasteBtn = document.getElementById('pasteBtn');
         const clearBtn = document.getElementById('clearBtn');
         const submitBtn = document.getElementById('submitBtn');
         const btnText = document.getElementById('btnText');
-        
+
         const resultsContainer = document.getElementById('resultsContainer');
         const mediaThumbnail = document.getElementById('mediaThumbnail');
         const mediaTitle = document.getElementById('mediaTitle');
         const uploaderBadge = document.getElementById('uploaderBadge');
         const platformBadge = document.getElementById('platformBadge');
         const formatsContainer = document.getElementById('formatsContainer');
-        
-        const toggleApiConfigBtn = document.getElementById('toggleApiConfigBtn');
-        const apiConfigDrawer = document.getElementById('apiConfigDrawer');
-        const customApiInput = document.getElementById('customApiInput');
-        const currentApiDisplay = document.getElementById('currentApiDisplay');
-        const resetApiBtn = document.getElementById('resetApiBtn');
 
+        const toggleJsonBtn = document.getElementById('toggleJsonBtn');
         const jsonDrawer = document.getElementById('jsonDrawer');
         const jsonChevron = document.getElementById('jsonChevron');
-        const toggleJsonBtn = document.getElementById('toggleJsonBtn');
         const jsonPreview = document.getElementById('jsonPreview');
         const copyJsonBtn = document.getElementById('copyJsonBtn');
 
@@ -471,41 +456,23 @@
         const modalNotice = document.getElementById('modalNotice');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
-        // Paste clipboard handler
+        // Clipboard Paste
         pasteBtn.addEventListener('click', async () => {
             try {
                 const text = await navigator.clipboard.readText();
-                if (text) {
-                    mediaUrlInput.value = text;
-                }
-            } catch (err) {
-                // Fallback focus
+                if (text) mediaUrlInput.value = text;
+            } catch (e) {
                 mediaUrlInput.focus();
             }
         });
 
-        // Clear text handler
+        // Clear input
         clearBtn.addEventListener('click', () => {
             mediaUrlInput.value = '';
             mediaUrlInput.focus();
         });
 
-        // Config Drawer Toggle
-        toggleApiConfigBtn.addEventListener('click', () => {
-            apiConfigDrawer.classList.toggle('hidden');
-        });
-
-        customApiInput.addEventListener('input', () => {
-            const val = customApiInput.value.trim() || '/api';
-            currentApiDisplay.textContent = `${val}?url=`;
-        });
-
-        resetApiBtn.addEventListener('click', () => {
-            customApiInput.value = '/api';
-            currentApiDisplay.textContent = '/api?url=';
-        });
-
-        // JSON Toggle
+        // Toggle JSON drawer
         toggleJsonBtn.addEventListener('click', () => {
             jsonDrawer.classList.toggle('hidden');
             jsonChevron.classList.toggle('rotate-90');
@@ -513,27 +480,25 @@
 
         // Copy JSON
         copyJsonBtn.addEventListener('click', () => {
-            const jsonText = jsonPreview.textContent;
+            const text = jsonPreview.textContent;
             const textarea = document.createElement('textarea');
-            textarea.value = jsonText;
+            textarea.value = text;
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
 
-            const originalHTML = copyJsonBtn.innerHTML;
+            const orig = copyJsonBtn.innerHTML;
             copyJsonBtn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i><span>Copied!</span>`;
-            setTimeout(() => {
-                copyJsonBtn.innerHTML = originalHTML;
-            }, 2000);
+            setTimeout(() => { copyJsonBtn.innerHTML = orig; }, 2000);
         });
 
-        // Close Modal
+        // Modal Close
         closeModalBtn.addEventListener('click', () => {
             errorModal.classList.add('hidden');
         });
 
-        // Detect Platform Name from URL
+        // Platform detector
         function detectPlatform(url) {
             if (url.includes('instagram.com')) return 'INSTAGRAM';
             if (url.includes('tiktok.com')) return 'TIKTOK';
@@ -551,23 +516,20 @@
             const mediaUrl = mediaUrlInput.value.trim();
             if (!mediaUrl) return;
 
-            const baseApi = customApiInput.value.trim() || '/api';
-            const requestEndpoint = `${baseApi.replace(/\/$/, '')}?url=${encodeURIComponent(mediaUrl)}`;
+            const endpoint = `/api?url=${encodeURIComponent(mediaUrl)}`;
 
-            // UI Loading state
             submitBtn.disabled = true;
-            btnText.textContent = 'EXTRACTING...';
-            submitBtn.querySelector('i').className = 'fa-solid fa-spinner animate-spin text-lg';
+            btnText.textContent = 'FETCHING MEDIA...';
+            submitBtn.querySelector('i').className = 'fa-solid fa-spinner animate-spin text-xl';
 
             try {
-                const response = await fetch(requestEndpoint);
+                const response = await fetch(endpoint);
                 
-                // Handle 403 Forbidden / Access Denied
                 if (response.status === 403) {
                     AudioFX.playError();
                     const errData = await response.json();
                     renderJson(errData);
-                    showErrorNotice(errData.notice || "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
+                    showError(errData.notice || "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL");
                     return;
                 }
 
@@ -576,52 +538,49 @@
 
                 if (data.status === 'error' || !data.video_info) {
                     AudioFX.playError();
-                    showErrorNotice(data.notice || data.message || "Failed to parse video. Check URL and try again.");
+                    showError(data.notice || data.message || "Failed to fetch video details.");
                     return;
                 }
 
-                // Success
                 AudioFX.playSuccess();
                 renderResults(data, mediaUrl);
 
             } catch (err) {
                 AudioFX.playError();
-                const mockErr = {
+                const fallback = {
                     status: "error",
-                    message: "REQUEST BLOCKED OR INVALID API ROUTE",
                     notice: "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL",
                     details: err.message
                 };
-                renderJson(mockErr);
-                showErrorNotice(mockErr.notice);
-            } flex: {
+                renderJson(fallback);
+                showError(fallback.notice);
+            } finally {
                 submitBtn.disabled = false;
-                btnText.textContent = 'FETCH MEDIA';
-                submitBtn.querySelector('i').className = 'fa-solid fa-bolt text-lg';
+                btnText.textContent = 'EXTRACT MEDIA';
+                submitBtn.querySelector('i').className = 'fa-solid fa-cloud-arrow-down text-xl';
             }
         });
 
         function renderResults(data, originalUrl) {
             resultsContainer.classList.remove('hidden');
-            
             const info = data.video_info;
-            mediaThumbnail.src = info.thumbnail || 'https://placehold.co/600x600/0F172A/06B6D4?text=No+Thumbnail';
+
+            mediaThumbnail.src = info.thumbnail || 'https://placehold.co/600x600/0B101D/00F0FF?text=No+Preview';
             mediaTitle.textContent = info.title || 'Extracted Video File';
             uploaderBadge.textContent = `@${info.uploader || 'FTGM_USER'}`;
             platformBadge.textContent = detectPlatform(originalUrl);
 
-            // Populate formats grid
             formatsContainer.innerHTML = '';
 
             if (Array.isArray(info.available_formats) && info.available_formats.length > 0) {
                 info.available_formats.forEach((fmt) => {
                     const isAudio = fmt.type === 'audio' || fmt.extension === 'mp3';
-                    const formatCard = document.createElement('div');
-                    formatCard.className = 'flex items-center justify-between p-3.5 bg-cyber-bg/80 rounded-2xl border border-slate-800 hover:border-cyber-cyan/50 transition-all';
+                    const item = document.createElement('div');
+                    item.className = 'flex items-center justify-between p-3.5 bg-brand-bg/90 rounded-2xl border border-slate-800 hover:border-brand-cyan/50 transition-all';
 
-                    formatCard.innerHTML = `
+                    item.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-9 h-9 rounded-xl ${isAudio ? 'bg-cyber-purple/20 text-cyber-purpleGlow border border-cyber-purple/30' : 'bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/30'} flex items-center justify-center font-bold text-sm">
+                            <div class="w-9 h-9 rounded-xl ${isAudio ? 'bg-brand-purple/20 text-brand-purple border border-brand-purple/30' : 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30'} flex items-center justify-center font-bold text-sm">
                                 <i class="fa-solid ${isAudio ? 'fa-music' : 'fa-video'}"></i>
                             </div>
                             <div>
@@ -631,17 +590,16 @@
                         </div>
 
                         <a href="${fmt.download_url}" target="_blank" onclick="AudioFX.playClick()" download
-                            class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-purple text-slate-950 font-extrabold text-xs font-mono transition-all hover:opacity-90 shadow-neon-cyan flex items-center gap-1.5">
-                            <i class="fa-solid fa-download"></i> Download
+                            class="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-purple text-slate-950 font-heading font-black text-xs transition-all hover:opacity-90 shadow-neon-cyan flex items-center gap-1.5">
+                            <i class="fa-solid fa-download"></i> DOWNLOAD
                         </a>
                     `;
-                    formatsContainer.appendChild(formatCard);
+                    formatsContainer.appendChild(item);
                 });
             } else {
                 formatsContainer.innerHTML = `<p class="text-xs font-mono text-slate-500">No format options available.</p>`;
             }
 
-            // Scroll results into view smoothly
             resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -649,9 +607,8 @@
             jsonPreview.textContent = JSON.stringify(data, null, 2);
         }
 
-        function showErrorNotice(message) {
-            resultsContainer.classList.remove('hidden');
-            modalNotice.textContent = message;
+        function showError(msg) {
+            modalNotice.textContent = msg;
             errorModal.classList.remove('hidden');
         }
     </script>
