@@ -1,0 +1,514 @@
+html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTGM - Universal Video Downloader API Tester</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#111827',
+                            border: '#1F2937',
+                            cyan: '#06B6D4',
+                            cyanGlow: '#00F0FF',
+                            blue: '#3B82F6',
+                            blueGlow: '#2563EB',
+                            accent: '#14B8A6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px -3px rgba(6, 182, 212, 0.4), 0 0 8px -2px rgba(6, 182, 212, 0.2)',
+                        'neon-blue': '0 0 20px -3px rgba(59, 130, 246, 0.4), 0 0 8px -2px rgba(59, 130, 246, 0.2)',
+                        'neon-red': '0 0 20px -3px rgba(239, 68, 68, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for JSON viewer */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
+        }
+
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, #06B6D4, #3B82F6, #14B8A6);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .glow-border:hover::before {
+            opacity: 0.8;
+        }
+
+        /* Scanline FX */
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.2) 50%,
+                rgba(0, 0, 0, 0.2)
+            );
+            background-size: 100% 4px;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-cyan selection:text-black">
+
+    <!-- Top Header -->
+    <header class="border-b border-brand-border bg-brand-card/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-blue flex items-center justify-center shadow-neon-cyan">
+                    <i class="fa-solid font-bold fa-bolt text-slate-950 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-brand-cyan bg-clip-text text-transparent">
+                        FTGM UNIVERSAL API TESTER
+                    </h1>
+                    <p class="text-xs text-slate-400 font-mono">v1.0.0 • POWERED BY FTGM HACKS</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Badges -->
+            <div class="flex items-center space-x-3 text-xs font-mono">
+                <a href="https://ftgmtools.pages.dev" target="_blank" class="px-3 py-1.5 rounded-lg bg-brand-border/60 hover:bg-brand-cyan/20 hover:text-brand-cyan border border-slate-700/60 transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-globe"></i> ftgmtools.pages.dev
+                </a>
+                <a href="https://pak-digital.store" target="_blank" class="px-3 py-1.5 rounded-lg bg-brand-border/60 hover:bg-brand-blue/20 hover:text-brand-blue border border-slate-700/60 transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-store"></i> pak-digital.store
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        
+        <!-- Controls & Endpoint Config -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            
+            <!-- Left 2 Cols: Form Input -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden glow-border">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-link text-brand-cyan"></i> Target URL Fetcher
+                        </h2>
+                        <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Proxy Ready
+                        </span>
+                    </div>
+
+                    <!-- Input form -->
+                    <form id="apiForm" class="space-y-4">
+                        <div>
+                            <label for="apiUrl" class="block text-xs font-mono text-slate-400 mb-1.5">YOUR DEPLOYED VERCEL API ENDPOINT</label>
+                            <input type="url" id="apiUrl" placeholder="https://your-api.vercel.app/" 
+                                class="w-full bg-brand-dark/90 border border-slate-700 rounded-xl px-4 py-3 text-sm font-mono text-cyan-300 focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all" required>
+                        </div>
+
+                        <div>
+                            <label for="videoUrl" class="block text-xs font-mono text-slate-400 mb-1.5">MEDIA URL (INSTAGRAM, REELS, TIKTOK, YOUTUBE, ETC.)</label>
+                            <div class="relative">
+                                <input type="url" id="videoUrl" value="https://www.instagram.com/reel/Dd-pkVdsWiO/" 
+                                    class="w-full bg-brand-dark/90 border border-slate-700 rounded-xl pl-4 pr-10 py-3 text-sm text-slate-100 focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all" required>
+                                <button type="button" id="clearBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                            <button type="submit" id="submitBtn" class="flex-1 bg-gradient-to-r from-brand-cyan to-brand-blue hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-3.5 px-6 rounded-xl transition-all duration-200 transform active:scale-98 shadow-neon-cyan flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Fetch & Extract Media</span>
+                            </button>
+                            <button type="button" id="simulateAuthFailBtn" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 font-medium px-4 py-3.5 rounded-xl transition-all text-xs font-mono flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-shield-cat"></i>
+                                <span>Simulate Unauthorized</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right 1 Col: Quick Info Card -->
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-user-shield text-brand-blue"></i> Developer Metadata
+                    </h3>
+                    <div class="space-y-3 text-xs font-mono">
+                        <div class="p-3 bg-brand-dark/60 rounded-xl border border-slate-800">
+                            <span class="text-slate-500 block mb-0.5">DEVELOPER</span>
+                            <span class="text-slate-200 font-bold">RANA FAISAL ALI</span>
+                        </div>
+                        <div class="p-3 bg-brand-dark/60 rounded-xl border border-slate-800">
+                            <span class="text-slate-500 block mb-0.5">OFFICIAL BRAND</span>
+                            <span class="text-brand-cyan font-bold">FTGM HACKS | FTGM TOOLS</span>
+                        </div>
+                        <div class="p-3 bg-brand-dark/60 rounded-xl border border-slate-800">
+                            <span class="text-slate-500 block mb-0.5">STORE URL</span>
+                            <span class="text-brand-blue font-bold">pak-digital.store</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 font-mono">
+                    Locked to: <span class="text-emerald-400">ftgm-universaldownloader.vercel.app</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section (Hidden by default, revealed on request) -->
+        <div id="outputContainer" class="hidden space-y-8">
+            
+            <!-- Processed Result Card -->
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-6 shadow-2xl">
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4 mb-6">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-photo-film text-brand-cyan"></i> Extracted Media Content
+                    </h3>
+                    <span id="statusBadge" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                        STATUS: SUCCESS
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Thumbnail preview -->
+                    <div class="space-y-3">
+                        <div class="relative rounded-xl overflow-hidden border border-slate-700/60 bg-black aspect-video md:aspect-square flex items-center justify-center group">
+                            <img id="mediaThumbnail" src="" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                            <span class="absolute bottom-2 left-2 text-[10px] font-mono bg-black/70 px-2 py-0.5 rounded text-slate-300">Preview</span>
+                        </div>
+                        <div>
+                            <h4 id="videoTitle" class="font-semibold text-sm text-slate-100 line-clamp-2">--</h4>
+                            <p id="videoUploader" class="text-xs text-brand-cyan font-mono mt-1">@--</p>
+                        </div>
+                    </div>
+
+                    <!-- Formats and Downloads List -->
+                    <div class="md:col-span-2 space-y-3">
+                        <h4 class="text-xs font-mono text-slate-400 uppercase tracking-wider">AVAILABLE DOWNLOAD FORMATS</h4>
+                        <div id="formatsList" class="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pretty JSON Code Preview Container -->
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xs font-mono text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-code text-brand-cyan"></i> API PRETTY JSON RESPONSE
+                    </h3>
+                    <button id="copyJsonBtn" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-brand-border hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-copy"></i> <span>Copy JSON</span>
+                    </button>
+                </div>
+                <pre id="jsonPreview" class="bg-brand-dark p-4 rounded-xl text-xs font-mono text-emerald-400 overflow-x-auto max-h-96 border border-slate-800 leading-relaxed scanline">
+{ "waiting": "Send request to view parsed response" }
+                </pre>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-border bg-brand-card/50 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-400">
+            <div>
+                &copy; 2026 <span class="text-brand-cyan font-bold">FTGM TOOLS</span>. Developed by RANA FAISAL ALI.
+            </div>
+            <div class="flex items-center space-x-4">
+                <span>FTGM HACKS OFFICIAL</span>
+                <span>•</span>
+                <a href="https://pak-digital.store" target="_blank" class="hover:text-brand-cyan transition-colors">Pak Digital Store</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Access Denied Modal -->
+    <div id="accessDeniedModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border-2 border-red-500/50 rounded-2xl max-w-md w-full p-6 shadow-neon-red text-center space-y-4 animate-bounce-short">
+            <div class="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto border border-red-500/40 text-2xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h3 class="text-xl font-extrabold text-white">ACCESS DENIED</h3>
+                <p class="text-xs font-mono text-red-400 mt-1">HTTP 403: UNAUTHORIZED DOMAIN DETECTED</p>
+            </div>
+            <div class="bg-brand-dark p-4 rounded-xl border border-red-500/20 text-left space-y-2">
+                <span class="text-[10px] font-mono text-slate-400 block">SYSTEM NOTICE:</span>
+                <p class="text-sm font-bold font-mono text-red-400 break-words">
+                    CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL
+                </p>
+            </div>
+            <button id="closeModalBtn" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-xl transition-colors font-mono text-xs">
+                CLOSE NOTICE
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /* Modern Web Audio Synthesizer for sound effects without external audio files */
+        const AudioFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+            playClick() {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.08);
+                } catch(e) {}
+            },
+            playSuccess() {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+                    osc.frequency.setValueAtTime(880, this.ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.25);
+                } catch(e) {}
+            },
+            playError() {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+                    osc.frequency.setValueAtTime(100, this.ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.3);
+                } catch(e) {}
+            }
+        };
+
+        // Populate API default endpoint
+        document.getElementById('apiUrl').value = window.location.origin + '/';
+
+        // Event listeners
+        const apiForm = document.getElementById('apiForm');
+        const clearBtn = document.getElementById('clearBtn');
+        const videoUrlInput = document.getElementById('videoUrl');
+        const submitBtn = document.getElementById('submitBtn');
+        const outputContainer = document.getElementById('outputContainer');
+        const jsonPreview = document.getElementById('jsonPreview');
+        const copyJsonBtn = document.getElementById('copyJsonBtn');
+        const modal = document.getElementById('accessDeniedModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const simulateAuthFailBtn = document.getElementById('simulateAuthFailBtn');
+
+        clearBtn.addEventListener('click', () => {
+            AudioFX.playClick();
+            videoUrlInput.value = '';
+            videoUrlInput.focus();
+        });
+
+        // Form Submit
+        apiForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            AudioFX.playClick();
+
+            const baseUrl = document.getElementById('apiUrl').value.trim();
+            const mediaUrl = videoUrlInput.value.trim();
+
+            if (!baseUrl || !mediaUrl) return;
+
+            // UI Loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing API Request...`;
+            
+            try {
+                const targetEndpoint = `${baseUrl.replace(/\/$/, '')}/?url=${encodeURIComponent(mediaUrl)}`;
+                const res = await fetch(targetEndpoint);
+
+                if (res.status === 403) {
+                    AudioFX.playError();
+                    const errorJson = await res.json();
+                    renderJsonResponse(errorJson);
+                    showModal();
+                    return;
+                }
+
+                const data = await res.json();
+
+                if (data.status === "error" && data.notice) {
+                    AudioFX.playError();
+                    renderJsonResponse(data);
+                    showModal();
+                    return;
+                }
+
+                AudioFX.playSuccess();
+                renderSuccessData(data);
+
+            } catch (err) {
+                AudioFX.playError();
+                // If fetch failed due to CORS/Origin policy block
+                renderJsonResponse({
+                    status: "error",
+                    message: "ACCESS DENIED / CORS BLOCKED",
+                    notice: "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL",
+                    details: err.message
+                });
+                showModal();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> <span>Fetch & Extract Media</span>`;
+            }
+        });
+
+        // Render success payload into dynamic card
+        function renderSuccessData(data) {
+            outputContainer.classList.remove('hidden');
+            renderJsonResponse(data);
+
+            if (data.video_info) {
+                document.getElementById('mediaThumbnail').src = data.video_info.thumbnail || 'https://placehold.co/600x600/111827/06B6D4?text=No+Thumbnail';
+                document.getElementById('videoTitle').textContent = data.video_info.title || 'Untitled Video';
+                document.getElementById('videoUploader').textContent = `@${data.video_info.uploader || 'Unknown'}`;
+
+                // Formats render
+                const formatsList = document.getElementById('formatsList');
+                formatsList.innerHTML = '';
+
+                if (Array.isArray(data.video_info.available_formats)) {
+                    data.video_info.available_formats.forEach((fmt) => {
+                        const isAudio = fmt.type === 'audio';
+                        const item = document.createElement('div');
+                        item.className = 'flex items-center justify-between p-3 bg-brand-dark/80 rounded-xl border border-slate-800 hover:border-brand-cyan/50 transition-all';
+                        
+                        item.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg ${isAudio ? 'bg-purple-500/20 text-purple-400' : 'bg-brand-cyan/20 text-brand-cyan'} flex items-center justify-center text-sm font-bold">
+                                    <i class="fa-solid ${isAudio ? 'fa-music' : 'fa-video'}"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-200">${fmt.quality || 'Standard'}</div>
+                                    <div class="text-[10px] font-mono text-slate-500 uppercase">${fmt.extension || 'mp4'} • ${fmt.type || 'video'}</div>
+                                </div>
+                            </div>
+                            <a href="${fmt.download_url}" target="_blank" onclick="AudioFX.playClick()" class="px-3 py-1.5 rounded-lg bg-brand-cyan/10 hover:bg-brand-cyan text-brand-cyan hover:text-black font-mono text-xs font-bold transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-download"></i> Download
+                            </a>
+                        `;
+                        formatsList.appendChild(item);
+                    });
+                }
+            }
+        }
+
+        function renderJsonResponse(obj) {
+            // Pretty formatting with 2 spaces
+            jsonPreview.textContent = JSON.stringify(obj, null, 2);
+        }
+
+        function showModal() {
+            outputContainer.classList.remove('hidden');
+            modal.classList.remove('hidden');
+        }
+
+        closeModalBtn.addEventListener('click', () => {
+            AudioFX.playClick();
+            modal.classList.add('hidden');
+        });
+
+        simulateAuthFailBtn.addEventListener('click', () => {
+            AudioFX.playError();
+            renderJsonResponse({
+                status: "error",
+                message: "ACCESS DENIED",
+                notice: "CONTACT TO BUY API : 03104882921 FTGM HACKS OFFICIAL"
+            });
+            showModal();
+        });
+
+        // Copy JSON Button
+        copyJsonBtn.addEventListener('click', () => {
+            AudioFX.playClick();
+            const textToCopy = jsonPreview.textContent;
+            
+            // Fallback execCommand copy for frame safety
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            const originalText = copyJsonBtn.innerHTML;
+            copyJsonBtn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span>Copied!</span>`;
+            setTimeout(() => {
+                copyJsonBtn.innerHTML = originalText;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
