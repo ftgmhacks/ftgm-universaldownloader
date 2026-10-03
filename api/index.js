@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
   const isAllowedOrigin = cleanOrigin === allowedOrigin;
   const isAllowedReferer = cleanReferer === allowedOrigin || cleanReferer.startsWith(`${allowedOrigin}/`);
 
-  // Allow local testing and requests from authorized domain
+  // Allow local testing or direct requests
   const isLocal = !origin && !referer;
 
   if (!isAllowedOrigin && !isAllowedReferer && !isLocal) {
@@ -36,8 +36,7 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  // --- FEATURE 2: PROXY FILE DOWNLOADER ---
-  // If request contains 'dl' (download link), stream file directly through your API
+  // --- FEATURE 2: PROXY FILE DOWNLOADER WITH SIZE & CUSTOM NAME ---
   const { dl, filename, ext } = req.query;
 
   if (dl) {
@@ -47,14 +46,28 @@ module.exports = async (req, res) => {
         return res.status(fileResponse.status).send('Failed to fetch media file');
       }
 
+      // Headers Forwarding
       const contentType = fileResponse.headers.get('content-type') || 'application/octet-stream';
-      const safeFilename = (filename || 'FTGM_Downloader').replace(/[^a-zA-Z0-9_-]/g, '_');
+      const contentLength = fileResponse.headers.get('content-length');
+
+      // Filename Cleaning & Prefixing with savebyftgm_
+      let cleanTitle = (filename || 'video').trim().replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_');
+      cleanTitle = cleanTitle.replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
+      
+      if (!cleanTitle) cleanTitle = 'video';
+
+      const finalFilename = `savebyftgm_${cleanTitle}`;
       const fileExtension = ext || 'mp4';
 
       res.setHeader('Content-Type', contentType);
-      res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}.${fileExtension}"`);
+      res.setHeader('Content-Disposition', `attachment; filename="${finalFilename}.${fileExtension}"`);
+      
+      // Pass Content-Length header so Download Managers show the REAL file size!
+      if (contentLength) {
+        res.setHeader('Content-Length', contentLength);
+      }
 
-      // Stream the video/audio directly to client
+      // Stream media file to client
       fileResponse.body.pipe(res);
       return;
     } catch (err) {
@@ -91,7 +104,6 @@ module.exports = async (req, res) => {
 
     const data = await response.json();
 
-    // Construct response and rewrite download links to route through YOUR Vercel API
     const host = req.headers.host || 'ftgm-universaldownloader.vercel.app';
     const protocol = req.headers['x-forwarded-proto'] || 'https';
     const baseUrl = `${protocol}://${host}/api`;
@@ -99,8 +111,8 @@ module.exports = async (req, res) => {
     let formats = [];
     if (data.video_info && Array.isArray(data.video_info.available_formats)) {
       formats = data.video_info.available_formats.map(fmt => {
-        // Rewrite original download link to point to YOUR proxy endpoint
-        const proxiedDownloadUrl = `${baseUrl}?dl=${encodeURIComponent(fmt.download_url)}&filename=${encodeURIComponent(data.video_info.title || 'media')}&ext=${fmt.extension || 'mp4'}`;
+        const videoTitle = data.video_info.title || 'video';
+        const proxiedDownloadUrl = `${baseUrl}?dl=${encodeURIComponent(fmt.download_url)}&filename=${encodeURIComponent(videoTitle)}&ext=${fmt.extension || 'mp4'}`;
         
         return {
           quality: fmt.quality,
