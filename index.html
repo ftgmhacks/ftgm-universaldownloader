@@ -11,33 +11,48 @@
   <!-- System Fonts Inter & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
+    /* Modern CSS Variables */
     :root {
-      --bg-color: #f8fafc;
+      --bg-color: #f3f4f6;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
-      --radius: 16px;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --input-bg: #f9fafb;
+      
+      --accent: #4f46e5; /* Indigo */
+      --accent-hover: #4338ca;
+      --accent-glow: rgba(79, 70, 229, 0.4);
+      
+      --success: #10b981;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
     }
 
+    /* Dark Mode Optimization */
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg-color: #0b0f17;
-        --card-bg: #151c28;
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
-        --border-color: #232d3f;
-        --accent: #3b82f6;
-        --accent-hover: #2563eb;
-        --shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.35);
+        --border-color: #334155;
+        --input-bg: #0f172a;
+        --accent: #6366f1;
+        --accent-hover: #4f46e5;
+        --danger-bg: rgba(239, 68, 68, 0.15);
+        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -45,7 +60,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     body {
@@ -55,40 +70,69 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 20px 16px;
+      padding: 30px 16px;
+      overflow-x: hidden;
     }
 
     .container {
       width: 100%;
-      max-width: 680px;
+      max-width: 640px;
       margin: 0 auto;
+      flex: 1;
     }
+
+    /* Keyframe Animations */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseSoft {
+      0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+      70% { box-shadow: 0 0 0 10px rgba(79,70,229,0); }
+      100% { box-shadow: 0 0 0 0 rgba(79,70,229,0); }
+    }
+
+    .animate-up {
+      opacity: 0;
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
 
     /* Header & Branding */
     header {
       text-align: center;
-      margin-top: 20px;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
+    }
+
+    .logo-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+      filter: drop-shadow(0 4px 6px var(--accent-glow));
     }
 
     .brand-title {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 900;
       letter-spacing: -0.5px;
-      color: var(--text-main);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       text-transform: uppercase;
     }
 
     .brand-title span {
-      color: var(--accent);
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .subtitle {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 500;
     }
 
     /* Platform Icons Grid */
@@ -97,7 +141,7 @@
       justify-content: center;
       align-items: center;
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       flex-wrap: wrap;
     }
 
@@ -105,18 +149,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-      font-size: 1.3rem;
-      transition: transform 0.2s ease;
+      box-shadow: var(--shadow-sm);
+      font-size: 1.5rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: default;
     }
 
     .platform-chip:hover {
-      transform: translateY(-2px);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
     }
 
     .icon-tiktok { color: #fe2c55; }
@@ -124,245 +171,299 @@
     .icon-facebook { color: #1877f2; }
     .icon-youtube { color: #ff0000; }
 
-    /* Input Box */
-    .input-card {
+    /* Search Container (Input + Button Stacked) */
+    .search-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 8px;
-      box-shadow: var(--shadow);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 24px;
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .input-wrapper {
       position: relative;
-      flex: 1;
       display: flex;
       align-items: center;
+      background: var(--input-bg);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      transition: all 0.3s ease;
     }
 
-    .input-wrapper i {
+    .input-wrapper:focus-within {
+      border-color: var(--accent);
+      background: var(--card-bg);
+      box-shadow: 0 0 0 4px var(--accent-glow);
+    }
+
+    .input-wrapper .fa-link {
       position: absolute;
-      left: 14px;
+      left: 16px;
       color: var(--text-muted);
       font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .input-wrapper:focus-within .fa-link {
+      color: var(--accent);
     }
 
     .input-field {
       width: 100%;
-      padding: 14px 44px 14px 42px;
+      padding: 16px 52px 16px 44px; /* Ensured room for side icons */
       background: transparent;
       border: none;
       outline: none;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 500;
       color: var(--text-main);
     }
 
     .input-field::placeholder {
       color: var(--text-muted);
-      font-weight: 500;
     }
 
     .btn-action-input {
       position: absolute;
-      right: 10px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
+      right: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
       cursor: pointer;
       font-size: 1rem;
-      padding: 6px;
+      width: 36px;
+      height: 36px;
       border-radius: 8px;
-      transition: color 0.2s ease, background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
     }
 
     .btn-action-input:hover {
-      color: var(--danger);
-      background-color: rgba(220, 38, 38, 0.1);
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Make clear button (Cut icon) turn red on hover */
+    .btn-action-input.clear-mode:hover {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger);
     }
 
     .btn-fetch {
-      background: var(--accent);
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
       color: #ffffff;
       border: none;
-      border-radius: 12px;
-      padding: 14px 24px;
-      font-size: 0.95rem;
-      font-weight: 800;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: background-color 0.2s ease;
-      white-space: nowrap;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px var(--accent-glow);
     }
 
     .btn-fetch:hover {
-      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--accent-glow);
+      background: linear-gradient(135deg, var(--accent-hover), #6d28d9);
+    }
+    
+    .btn-fetch:active {
+      transform: translateY(1px);
     }
 
-    /* Result Card */
+    /* Result Card (Hidden by default, animated in JS) */
     .result-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
       margin-bottom: 24px;
-      display: none;
+      display: none; /* toggled by JS */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .result-card.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .media-preview-container {
       display: flex;
-      gap: 16px;
-      margin-bottom: 18px;
-      align-items: flex-start;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 480px) {
+      .media-preview-container {
+        flex-direction: row;
+        align-items: flex-start;
+      }
     }
 
     .media-thumb {
-      width: 110px;
-      height: 110px;
-      border-radius: 12px;
+      width: 100%;
+      max-width: 140px;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-md);
       object-fit: cover;
       background: var(--border-color);
       flex-shrink: 0;
+      box-shadow: var(--shadow-md);
     }
 
     .media-info {
       flex: 1;
-      overflow: hidden;
+      width: 100%;
     }
 
     .media-title {
       font-size: 1.05rem;
-      font-weight: 800;
+      font-weight: 600;
       color: var(--text-main);
-      line-height: 1.35;
-      margin-bottom: 8px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      /* Removed line-clamp to show full text */
+      word-wrap: break-word;
+      white-space: pre-wrap;
     }
 
     .btn-copy-caption {
-      background: transparent;
+      background: var(--input-bg);
       border: 1px solid var(--border-color);
-      color: var(--text-muted);
+      color: var(--text-main);
       border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.8rem;
+      padding: 8px 14px;
+      font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.2s ease;
     }
 
     .btn-copy-caption:hover {
-      color: var(--text-main);
-      border-color: var(--text-muted);
+      background: var(--border-color);
     }
 
     .formats-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
+      gap: 12px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
     }
 
     .btn-save {
       width: 100%;
-      background: var(--accent);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 0.95rem;
-      font-weight: 800;
+      background: var(--input-bg);
+      color: var(--text-main);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      text-decoration: none;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .btn-save:hover {
-      background: var(--accent-hover);
+      border-color: var(--accent);
+      background: rgba(79, 70, 229, 0.05);
+      color: var(--accent);
     }
 
     .btn-save.preparing {
-      background: var(--text-muted);
+      background: var(--border-color);
+      color: var(--text-muted);
+      border-color: transparent;
       cursor: wait;
       pointer-events: none;
     }
 
     /* WhatsApp Banner */
     .whatsapp-card {
-      background: #00a884;
+      background: linear-gradient(135deg, #128C7E, #25D366);
       color: #ffffff;
-      border-radius: var(--radius);
-      padding: 16px 20px;
+      border-radius: var(--radius-lg);
+      padding: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       text-decoration: none;
-      box-shadow: 0 4px 15px rgba(0, 168, 132, 0.2);
+      box-shadow: 0 10px 20px rgba(37, 211, 102, 0.25);
       margin-bottom: 30px;
-      transition: transform 0.2s ease;
+      transition: all 0.3s ease;
     }
 
     .whatsapp-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 25px rgba(37, 211, 102, 0.35);
     }
 
     .wa-content {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
     .wa-icon {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
     }
 
     .wa-text h4 {
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 800;
+      margin-bottom: 4px;
     }
 
     .wa-text p {
-      font-size: 0.8rem;
-      opacity: 0.9;
-      font-weight: 600;
+      font-size: 0.85rem;
+      opacity: 0.95;
+      font-weight: 500;
     }
 
-    .wa-arrow {
-      font-size: 1.2rem;
-    }
-
-    /* Notification Toast */
+    /* Toast */
     .toast {
       position: fixed;
-      bottom: 20px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: #0f172a;
-      color: #ffffff;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      background: var(--text-main);
+      color: var(--bg-color);
+      padding: 12px 24px;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
       opacity: 0;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .toast.show {
@@ -373,19 +474,16 @@
     /* Footer */
     footer {
       text-align: center;
-      padding: 16px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      padding: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
       color: var(--text-muted);
-      border-top: 1px solid var(--border-color);
       width: 100%;
     }
 
-    /* Spinner */
     .spinner {
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -396,31 +494,36 @@
 
   <div class="container">
     <!-- Header -->
-    <header>
+    <header class="animate-up">
+      <div class="logo-wrapper">
+         <i class="fa-solid fa-bolt logo-icon"></i>
+      </div>
       <h1 class="brand-title">FTGM <span>DOWNLOADER</span></h1>
       <p class="subtitle">Download High-Quality Videos Fast & Free</p>
     </header>
 
     <!-- Platform Icons -->
-    <div class="platforms">
+    <div class="platforms animate-up delay-1">
       <div class="platform-chip"><i class="fa-brands fa-tiktok icon-tiktok"></i></div>
       <div class="platform-chip"><i class="fa-brands fa-instagram icon-instagram"></i></div>
       <div class="platform-chip"><i class="fa-brands fa-facebook icon-facebook"></i></div>
       <div class="platform-chip"><i class="fa-brands fa-youtube icon-youtube"></i></div>
     </div>
 
-    <!-- Input Card -->
-    <div class="input-card">
+    <!-- Search Section (Stacked layout) -->
+    <div class="search-card animate-up delay-2">
       <div class="input-wrapper">
         <i class="fa-solid fa-link"></i>
-        <input type="text" id="urlInput" class="input-field" placeholder="Paste media link here..." autocomplete="off">
+        <input type="text" id="urlInput" class="input-field" placeholder="Paste your video link here..." autocomplete="off">
         <button id="inputActionBtn" class="btn-action-input" title="Paste Link">
           <i class="fa-regular fa-clipboard" id="actionIcon"></i>
         </button>
       </div>
+      
+      <!-- Download Button is now under the Search Bar -->
       <button id="fetchBtn" class="btn-fetch">
         <i class="fa-solid fa-arrow-down-long"></i>
-        <span>Fetch</span>
+        <span>Fetch Media</span>
       </button>
     </div>
 
@@ -429,9 +532,10 @@
       <div class="media-preview-container">
         <img id="mediaThumb" class="media-thumb" src="" alt="Thumbnail">
         <div class="media-info">
-          <h2 id="mediaTitle" class="media-title"></h2>
+          <!-- media-title now allows full text wrapping -->
+          <div id="mediaTitle" class="media-title"></div>
           <button id="copyCaptionBtn" class="btn-copy-caption">
-            <i class="fa-regular fa-copy"></i> Copy Caption
+            <i class="fa-regular fa-copy"></i> Copy Full Caption
           </button>
         </div>
       </div>
@@ -439,7 +543,7 @@
     </div>
 
     <!-- WhatsApp CTA -->
-    <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" class="whatsapp-card">
+    <a href="https://whatsapp.com/channel/0029VbDQFi9KmCPUDQEwVW2W" target="_blank" class="whatsapp-card animate-up delay-3">
       <div class="wa-content">
         <i class="fa-brands fa-whatsapp wa-icon"></i>
         <div class="wa-text">
@@ -447,15 +551,18 @@
           <p>Get instant updates & exclusive tools</p>
         </div>
       </div>
-      <i class="fa-solid fa-chevron-right wa-arrow"></i>
+      <i class="fa-solid fa-chevron-right"></i>
     </a>
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="toast">Caption Copied!</div>
+  <div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+    <span id="toastMsg">Action successful!</span>
+  </div>
 
   <!-- Footer -->
-  <footer>
+  <footer class="animate-up delay-3">
     FTGM TOOLS &copy; 2026. All rights reserved.
   </footer>
 
@@ -470,70 +577,93 @@
     const copyCaptionBtn = document.getElementById('copyCaptionBtn');
     const formatsList = document.getElementById('formatsList');
     const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
 
     let currentTitleText = '';
+    let toastTimeout;
 
-    // Show Toast
-    function showToast(msg) {
-      toast.innerText = msg;
+    // Toast Notification System
+    function showToast(msg, isError = false) {
+      clearTimeout(toastTimeout);
+      toastMsg.innerText = msg;
+      
+      const icon = toast.querySelector('i');
+      if (isError) {
+        icon.className = 'fa-solid fa-circle-exclamation';
+        icon.style.color = 'var(--danger)';
+      } else {
+        icon.className = 'fa-solid fa-circle-check';
+        icon.style.color = 'var(--success)';
+      }
+      
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Toggle Paste / Clear Button
-    urlInput.addEventListener('input', () => {
+    // Input state checker to switch between Paste and Clear(Cut) icons
+    function checkInputState() {
       if (urlInput.value.trim() !== '') {
         actionIcon.className = 'fa-solid fa-xmark';
         inputActionBtn.title = 'Clear Link';
+        inputActionBtn.classList.add('clear-mode');
       } else {
         actionIcon.className = 'fa-regular fa-clipboard';
         inputActionBtn.title = 'Paste Link';
+        inputActionBtn.classList.remove('clear-mode');
       }
-    });
+    }
 
-    // Action Button Click (Paste or Clear)
+    urlInput.addEventListener('input', checkInputState);
+
+    // Paste or Clear Button Logic
     inputActionBtn.addEventListener('click', async () => {
       if (urlInput.value.trim() !== '') {
+        // Clear logic
         urlInput.value = '';
-        actionIcon.className = 'fa-regular fa-clipboard';
-        inputActionBtn.title = 'Paste Link';
+        checkInputState();
         urlInput.focus();
       } else {
+        // Paste logic
         try {
           const text = await navigator.clipboard.readText();
           if (text) {
             urlInput.value = text;
-            actionIcon.className = 'fa-solid fa-xmark';
-            inputActionBtn.title = 'Clear Link';
+            checkInputState();
           }
         } catch (err) {
-          showToast('Failed to access clipboard');
+          showToast('Failed to access clipboard. Please paste manually.', true);
         }
       }
     });
 
-    // Copy Caption Action
+    // Copy Full Caption Feature
     copyCaptionBtn.addEventListener('click', () => {
       if (currentTitleText) {
-        navigator.clipboard.writeText(currentTitleText);
-        showToast('Caption copied to clipboard!');
+        navigator.clipboard.writeText(currentTitleText)
+          .then(() => showToast('Full caption copied!'))
+          .catch(() => showToast('Failed to copy', true));
       }
     });
 
-    // Fetch Video Details
+    // Fetch Logic with smooth result appearance
     fetchBtn.addEventListener('click', async () => {
       const url = urlInput.value.trim();
       if (!url) {
-        showToast('Please enter a valid video link!');
+        showToast('Please enter a valid video link!', true);
+        urlInput.focus();
         return;
       }
 
       // UI Loading State
       fetchBtn.disabled = true;
-      fetchBtn.innerHTML = '<i class="fa-solid fa-spinner spinner"></i> Processing...';
-      resultCard.style.display = 'none';
+      fetchBtn.innerHTML = '<i class="fa-solid fa-spinner spinner"></i> <span>Processing...</span>';
+      
+      // Hide result card if showing
+      resultCard.classList.remove('show');
+      setTimeout(() => resultCard.style.display = 'none', 300);
 
       try {
+        // Simulating API Fetch
         const response = await fetch(`/api?url=${encodeURIComponent(url)}`);
         const data = await response.json();
 
@@ -551,27 +681,24 @@
               const saveBtn = document.createElement('button');
               saveBtn.className = 'btn-save';
               saveBtn.innerHTML = `
-                <span><i class="fa-solid fa-download"></i> Save (${fmt.quality})</span>
-                <span>${fmt.extension.toUpperCase()}</span>
+                <span><i class="fa-solid fa-download" style="margin-right:6px"></i> Download (${fmt.quality})</span>
+                <span style="font-size:0.85rem; font-weight:800;">${fmt.extension.toUpperCase()}</span>
               `;
 
               saveBtn.addEventListener('click', () => {
-                // Change state to "Preparing..."
                 saveBtn.classList.add('preparing');
                 saveBtn.innerHTML = `
-                  <span><i class="fa-solid fa-spinner spinner"></i> Preparing...</span>
-                  <span>${fmt.extension.toUpperCase()}</span>
+                  <span><i class="fa-solid fa-spinner spinner" style="margin-right:6px"></i> Preparing...</span>
+                  <span style="font-size:0.85rem; font-weight:800;">${fmt.extension.toUpperCase()}</span>
                 `;
 
-                // Trigger Download
                 window.location.href = fmt.download_url;
 
-                // Reset button after 5 seconds
                 setTimeout(() => {
                   saveBtn.classList.remove('preparing');
                   saveBtn.innerHTML = `
-                    <span><i class="fa-solid fa-download"></i> Save (${fmt.quality})</span>
-                    <span>${fmt.extension.toUpperCase()}</span>
+                    <span><i class="fa-solid fa-download" style="margin-right:6px"></i> Download (${fmt.quality})</span>
+                    <span style="font-size:0.85rem; font-weight:800;">${fmt.extension.toUpperCase()}</span>
                   `;
                 }, 5000);
               });
@@ -579,18 +706,23 @@
               formatsList.appendChild(saveBtn);
             });
           } else {
-            formatsList.innerHTML = '<p style="color:var(--text-muted); font-weight:600;">No download formats available.</p>';
+            formatsList.innerHTML = '<p style="color:var(--text-muted); font-weight:500; text-align:center; margin-top:10px;">No download formats available.</p>';
           }
 
+          // Smooth reveal animation
           resultCard.style.display = 'block';
+          // Trigger browser reflow
+          void resultCard.offsetWidth;
+          resultCard.classList.add('show');
+          
         } else {
-          showToast(data.message || 'Failed to fetch video details.');
+          showToast(data.message || 'Failed to fetch video details.', true);
         }
       } catch (err) {
-        showToast('Error connecting to API server.');
+        showToast('Error connecting to API server.', true);
       } finally {
         fetchBtn.disabled = false;
-        fetchBtn.innerHTML = '<i class="fa-solid fa-arrow-down-long"></i> Fetch';
+        fetchBtn.innerHTML = '<i class="fa-solid fa-arrow-down-long"></i> <span>Fetch Media</span>';
       }
     });
   </script>
